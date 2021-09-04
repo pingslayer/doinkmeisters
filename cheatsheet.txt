@@ -1,0 +1,9 @@
+npx create-react-app doinkmeisters
+
+npm install @reduxjs/toolkit
+npm install react-redux
+npm install react-router-dom
+npm start
+
+npm run build
+firebase deploy
