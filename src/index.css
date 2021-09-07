@@ -6,10 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  /** temp animation */
-  height: 700px;
-  overflow: hidden;
+  color: #c6c9d8;
 }
 
 code {
