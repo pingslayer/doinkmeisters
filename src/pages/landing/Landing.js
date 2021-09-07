@@ -5,16 +5,26 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import classes from "./Landing.module.css";
 
 const Landing = () => {
-  const [isAllowedToJoin, setIsAllowedToJoin] = useState(true);
+  const [superSecretKey, setSuperSecretKey] = useState("");
+  const [isErrorMessageVisible, setIsErrorMessageVisible] = useState(false);
 
-  const gotoChannelHandler = (event) => {
+  const superSecretKeyChangeHandler = (event) => {
+    setSuperSecretKey(event.target.value);
+  };
+
+  const validateSuperSecretKeyForm = (event) => {
     event.preventDefault();
-    setIsAllowedToJoin(false);
+    setSuperSecretKey("");
+    setIsErrorMessageVisible(true);
+
+    setTimeout(() => {
+      setIsErrorMessageVisible(false);
+    }, 7000);
   };
 
   return (
     <Container fluid>
-      <Form onSubmit={gotoChannelHandler}>
+      <Form onSubmit={validateSuperSecretKeyForm}>
         <Row className="justify-content-md-center">
           <Col lg={{ span: 2 }}></Col>
           <Col lg={{ span: 8 }}>
@@ -25,10 +35,12 @@ const Landing = () => {
               </Form.Label>
               <Form.Control
                 type="text"
-                placeholder=""
+                placeholder=">> Type the key here and then press [ENTER]"
                 className={classes["dm-form-control-dark-bg"]}
+                onChange={superSecretKeyChangeHandler}
+                value={superSecretKey}
               />
-              {!isAllowedToJoin && (
+              {isErrorMessageVisible && (
                 <Form.Text className="text-danger">
                   Oh snap, It looks like the top secret super classified key you
                   provided did not do so good.

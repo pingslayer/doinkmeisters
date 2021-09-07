@@ -1,7 +1,3 @@
-* {
-  /* border: 1px solid blue; */
-}
-
 form {
   margin: 0 auto;
   float: none;
@@ -15,7 +11,9 @@ form .dm-form-control-dark-bg {
   width: 100%;
   border: hidden;
   margin: 0 auto;
+  color: #c6c9d8;
   background-color: #191919;
+  text-align: center;
 }
 
 form .dm-form-control-dark-bg:focus {
@@ -23,6 +21,7 @@ form .dm-form-control-dark-bg:focus {
   background-color: #191919;
   border-color: #ee076e;
   box-shadow: 0 0 2px 2px #ee076e;
+  text-align: center;
 }
 
 .dm-form-control-text-muted {
