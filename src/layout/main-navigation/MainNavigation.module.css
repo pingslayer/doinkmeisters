@@ -1,0 +1,44 @@
+.header {
+  height: 5rem;
+  display: flex;
+  padding: 0 10%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #101010;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: bolder;
+  background: #ee076e;
+  background: -webkit-linear-gradient(to right, #ee076e 0%, #f81f01 100%);
+  background: -moz-linear-gradient(to right, #ee076e 0%, #f81f01 100%);
+  background: linear-gradient(to right, #ee076e 0%, #f81f01 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.nav li {
+  margin-left: 1.5rem;
+  font-size: 1.25rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #c6c9d8;
+}
+
+.nav a:hover,
+.nav a:active,
+.nav a.active {
+  color: #ee076e;
+  webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
