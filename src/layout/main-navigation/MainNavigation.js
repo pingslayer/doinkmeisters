@@ -20,11 +20,6 @@ const MainNavigation = () => {
               Kaboom
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/alakazam" activeClassName={classes.active}>
-              Alakazam
-            </NavLink>
-          </li>
         </ul>
       </nav>
     </header>
