@@ -12,12 +12,12 @@ const MainNavigation = () => {
         <ul>
           <li>
             <NavLink to="/doink" activeClassName={classes.active}>
-              Doink
+              Home
             </NavLink>
           </li>
           <li>
             <NavLink to="/kaboom" activeClassName={classes.active}>
-              Kaboom
+              About
             </NavLink>
           </li>
         </ul>
