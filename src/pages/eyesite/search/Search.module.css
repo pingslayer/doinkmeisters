@@ -1,0 +1,29 @@
+.dm-search-wrapper .dm-search-input-group-dark-bg {
+  border: none;
+  background-color: #101010;
+  color: white;
+}
+
+.dm-search-wrapper .dm-search-form-control-dark-bg {
+  margin: 0 auto;
+  border: none;
+  color: #c6c9d8;
+  background-color: #101010;
+}
+
+.dm-search-wrapper .dm-search-form-control-dark-bg::placeholder {
+  color: #c6c9d8;
+}
+
+.dm-search-wrapper .dm-search-form-control-dark-bg:focus {
+  color: #c6c9d8;
+  background-color: #101010;
+  border: none;
+  box-shadow: none;
+}
+
+.dm-search-wrapper .dm-search-random-button-dark-bg {
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+}

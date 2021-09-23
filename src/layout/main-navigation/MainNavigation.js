@@ -1,3 +1,4 @@
+import { Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 //css
 import classes from "./MainNavigation.module.css";
@@ -11,13 +12,18 @@ const MainNavigation = () => {
       <nav className={classes.nav}>
         <ul>
           <li>
-            <NavLink to="/doink" activeClassName={classes.active}>
+            <NavLink to="/home" activeClassName={classes.active}>
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink to="/kaboom" activeClassName={classes.active}>
-              About
+            <NavLink to="/eyesite" activeClassName={classes.active}>
+              Eyesite
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/login" activeClassName={classes.active}>
+              <Button variant="outline-danger">LOGIN</Button>
             </NavLink>
           </li>
         </ul>

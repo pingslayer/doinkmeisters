@@ -6,6 +6,9 @@ import Layout from "./layout/layout/Layout";
 import LoadingSpinner from "./ui/loading-spinner/LoadingSpinner";
 //pages
 import Landing from "./pages/landing/Landing";
+import EyeSite from "./pages/eyesite/EyeSite";
+import Login from "./pages/login/Login";
+import NotFound from "./pages/notfound/NotFound";
 
 function App() {
   const fallback = (
@@ -19,13 +22,19 @@ function App() {
       <Suspense fallback={fallback}>
         <Switch>
           <Route path="/" exact>
+            <Redirect to="/home" />
+          </Route>
+          <Route path="/home" exact>
             <Landing />
           </Route>
-          <Route path="/about">
-            <Redirect to="/" />
+          <Route path="/eyesite">
+            <EyeSite />
+          </Route>
+          <Route path="/login" exact>
+            <Login />
           </Route>
           <Route path="*">
-            <Redirect to="/" />
+            <NotFound />
           </Route>
         </Switch>
       </Suspense>

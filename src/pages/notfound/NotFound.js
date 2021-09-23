@@ -11,10 +11,14 @@ import {
 } from "react-bootstrap";
 //css
 import "bootstrap/dist/css/bootstrap.min.css";
-import classes from "./Landing.module.css";
+import classes from "./NotFound.module.css";
 
-const Landing = () => {
-  return <Container></Container>;
+const NotFound = () => {
+  return (
+    <Container>
+      <h1>NOT FOUND</h1>
+    </Container>
+  );
 };
 
-export default Landing;
+export default NotFound;
