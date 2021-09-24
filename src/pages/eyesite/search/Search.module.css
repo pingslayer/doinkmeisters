@@ -1,3 +1,7 @@
+.dm-search-wrapper {
+  background-color: #191919;
+}
+
 .dm-search-wrapper .dm-search-input-group-dark-bg {
   border: none;
   background-color: #101010;

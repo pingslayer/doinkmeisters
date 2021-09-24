@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+
+.dm-categories-wrapper {
+  box-shadow: 0 8px 6px -8px gray;
+}
+
+.dm-categories-navbar-topline {
+  width: 100%;
+  height: 5px;
+  background: -webkit-linear-gradient(
+    to bottom right,
+    #f81f01 0%,
+    #ee076e 100%
+  );
+  background: -moz-linear-gradient(to bottom right, #f81f01 0%, #ee076e 100%);
+  background: linear-gradient(to bottom right, #f81f01 0%, #ee076e 100%);
+}
+
+.dm-categories-navbar {
+  padding: 0px;
+}
+
+.dm-categories-link {
+  padding: 15px;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  color: grey;
+  font-size: 16px;
+}
+
+.dm-categories-link:hover {
+  color: darkslategray;
+}
+
+.dm-categories-link-last {
+  border-right: 0px solid grey;
+}
+
+.dm-categories-item-icon {
+  margin-right: 10px;
+}

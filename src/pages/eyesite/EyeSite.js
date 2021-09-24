@@ -14,6 +14,9 @@ const EyeSite = () => {
       <Search />
       {/* Categories Section */}
       <Categories />
+      {/* <Route path="/eyesite/welcome">
+        <h1>Nested route</h1>
+      </Route> */}
     </Fragment>
   );
 };

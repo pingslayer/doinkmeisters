@@ -1,3 +1,8 @@
+.dm-login-wrapper {
+  background-color: #191919;
+  height: 100vh;
+}
+
 .login-card {
   background-color: #101010;
   border-top: 5px solid #f81f01;
