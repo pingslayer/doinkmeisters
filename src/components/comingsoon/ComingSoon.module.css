@@ -1,0 +1,12 @@
+.mode-white {
+  color: white;
+}
+
+.mode-dark {
+  color: darkslategray;
+}
+
+.dm-coming-soon-message-container {
+  font-family: "Merriweather", serif;
+  padding-top: 90px;
+}

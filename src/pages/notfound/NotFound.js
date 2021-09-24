@@ -12,12 +12,16 @@ import {
 //css
 import "bootstrap/dist/css/bootstrap.min.css";
 import classes from "./NotFound.module.css";
+//components
+import ComingSoon from "../../components/comingsoon/ComingSoon";
 
 const NotFound = () => {
   return (
-    <Container>
-      <h1>NOT FOUND</h1>
-    </Container>
+    <div className={classes["dm-notfound-wrapper"]}>
+      <Container>
+        <ComingSoon mode="light" />
+      </Container>
+    </div>
   );
 };
 

@@ -6,6 +6,7 @@ import classes from "./EyeSite.module.css";
 //components
 import Search from "./search/Search";
 import Categories from "./categories/Categories";
+import ComingSoon from "../../components/comingsoon/ComingSoon";
 
 const EyeSite = () => {
   return (
@@ -17,6 +18,9 @@ const EyeSite = () => {
       {/* <Route path="/eyesite/welcome">
         <h1>Nested route</h1>
       </Route> */}
+      <Container>
+        <ComingSoon mode="dark" />
+      </Container>
     </Fragment>
   );
 };

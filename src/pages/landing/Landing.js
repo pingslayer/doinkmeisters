@@ -12,9 +12,17 @@ import {
 //css
 import "bootstrap/dist/css/bootstrap.min.css";
 import classes from "./Landing.module.css";
+//components
+import ComingSoon from "../../components/comingsoon/ComingSoon";
 
 const Landing = () => {
-  return <Container></Container>;
+  return (
+    <div className={classes["dm-landing-wrapper"]}>
+      <Container>
+        <ComingSoon mode="light" />
+      </Container>
+    </div>
+  );
 };
 
 export default Landing;
