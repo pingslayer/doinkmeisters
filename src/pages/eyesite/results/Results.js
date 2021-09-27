@@ -7,27 +7,27 @@ import useHttp from "../../../hooks/use-http";
 import { getFeaturedVideoGames } from "../../../apis/video-games-api";
 
 const Results = () => {
-    const {
-        sendRequest,
-        status,
-        data: loadedGames,
-        error,
-      } = useHttp(getFeaturedVideoGames, true);
-    
-      useEffect(() => {
-        sendRequest();
-      }, [sendRequest]);
-    
-      if (status === "pending") {
-        return (
-          <div className="centered">
-            <LoadingSpinner />
-          </div>
-        );
-      }
-      console.log(loadedGames);
+  const {
+    sendRequest,
+    status,
+    data: loadedGames,
+    error,
+  } = useHttp(getFeaturedVideoGames, true);
 
-    return <h1>This is a view</h1>;
+  useEffect(() => {
+    sendRequest();
+  }, [sendRequest]);
+
+  if (status === "pending") {
+    return (
+      <div className="centered">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+  console.log(loadedGames);
+
+  return <h1>This is a view</h1>;
 };
 
 export default Results;
