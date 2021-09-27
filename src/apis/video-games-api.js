@@ -25,9 +25,8 @@ import { collection, getDocs, query, where } from "firebase/firestore/lite";
 //   return transformedQuotes;
 // }
 
-export async function getFeaturedVideoGames() {
-  const q = query(collection(db, "video_games"), where("is_featured", "==", true));
+export async function getAllVideoGamesActive() {
+  const q = query(collection(db, "video_games"), where("status", "==", 1));
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map((doc) => doc.data());
-
 }
