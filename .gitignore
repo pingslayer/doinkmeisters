@@ -16,6 +16,9 @@
 .firebaserc
 firebase.json
 
+#config
+/src/config
+
 # misc
 .DS_Store
 .env.local

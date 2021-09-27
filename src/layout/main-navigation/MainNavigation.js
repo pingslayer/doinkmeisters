@@ -1,34 +1,47 @@
 import { Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 //css
 import classes from "./MainNavigation.module.css";
 
 const MainNavigation = () => {
   return (
-    <header className={classes.header}>
-      <div className={classes.logo}>
-        <NavLink to="/">Doinkmeisters.</NavLink>
-      </div>
-      <nav className={classes.nav}>
-        <ul>
-          <li>
-            <NavLink to="/home" activeClassName={classes.active}>
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/eyesite" activeClassName={classes.active}>
+    <Navbar collapseOnSelect expand="lg" className={classes["dm-header"]}>
+      <Container>
+        <Navbar.Brand>
+          <div className={classes["dm-logo"]}>
+            <NavLink to="/">Doinkmeisters.</NavLink>
+          </div>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto"></Nav>
+          <Nav className={classes.nav}>
+            <NavLink
+              to="/eyesite"
+              className={classes["dm-nav-item"]}
+              activeClassName={classes.active}
+            >
               Eyesite
             </NavLink>
-          </li>
-          <li>
-            <NavLink to="/login" activeClassName={classes.active}>
+            <NavLink
+              to="/about"
+              className={classes["dm-nav-item"]}
+              activeClassName={classes.active}
+            >
+              About
+            </NavLink>
+            <NavLink
+              to="/login"
+              className={classes["dm-nav-item"]}
+              activeClassName={classes.active}
+            >
               <Button variant="outline-danger">LOGIN</Button>
             </NavLink>
-          </li>
-        </ul>
-      </nav>
-    </header>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 

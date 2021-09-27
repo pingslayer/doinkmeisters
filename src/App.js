@@ -22,10 +22,7 @@ function App() {
       <Suspense fallback={fallback}>
         <Switch>
           <Route path="/" exact>
-            <Redirect to="/home" />
-          </Route>
-          <Route path="/home" exact>
-            <Landing />
+            <Redirect to="/eyesite" />
           </Route>
           <Route path="/eyesite">
             <EyeSite />

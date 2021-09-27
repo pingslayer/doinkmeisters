@@ -1,4 +1,5 @@
 import { Route, Switch, Redirect } from "react-router";
+import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCode,
@@ -15,10 +16,9 @@ const Categories = () => {
   return (
     <div className={classes["dm-categories-wrapper"]}>
       <div className={classes["dm-categories-navbar-topline"]}></div>
-
       <Nav fill variant="tabs">
         <Nav.Item>
-          <Nav.Link href="" className={classes["dm-categories-link"]}>
+          <Nav.Link as={NavLink} to="/eyesite/media-and-entertainment" className={classes["dm-categories-link"]}>
             <FontAwesomeIcon
               icon={faMobileAlt}
               className={classes["dm-categories-item-icon"]}
@@ -27,7 +27,7 @@ const Categories = () => {
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href="" className={classes["dm-categories-link"]}>
+          <Nav.Link as={NavLink} to="/eyesite/gamers-hub" className={classes["dm-categories-link"]}>
             <FontAwesomeIcon
               icon={faGamepad}
               className={classes["dm-categories-item-icon"]}

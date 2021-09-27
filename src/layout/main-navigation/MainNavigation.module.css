@@ -1,13 +1,9 @@
-.header {
-  height: 9rem;
-  display: flex;
-  padding: 0 10%;
-  justify-content: space-between;
-  align-items: center;
+.dm-header {
+  min-height: 9rem;
   background-color: #191919;
 }
 
-.logo {
+.dm-logo {
   font-size: 3rem;
   font-weight: bolder;
   background: #f81f01;
@@ -22,14 +18,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-.nav ul {
-  list-style: none;
-  display: flex;
-  margin: 0;
-  padding: 0;
-}
-
-.nav li {
+.dm-nav-item {
   margin-left: 1.5rem;
   font-size: 1.25rem;
 }
