@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+
+.no-data-icon {
+  font-size: 60px;
+  color: #ee076e;
+}
+
+.no-data-message {
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+}
+
+.dm-results-list {
+  padding: 0px;
+  margin: 0px;
+  list-style-type: none;
+}

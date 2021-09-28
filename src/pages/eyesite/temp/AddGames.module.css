@@ -1,0 +1,44 @@
+.dm-add-data-wrapper {
+  color: #c6c9d8;
+}
+
+.dm-form-card {
+  background: linear-gradient(-45deg, #fd523c 0%, #ee076e 100%);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+
+  border-radius: 0px;
+  color: white;
+}
+
+form .dm-form-control-dark-bg {
+  width: 100%;
+  border: hidden;
+  margin: 0 auto;
+  color: #c6c9d8;
+  background-color: #191919;
+}
+
+form .dm-form-control-dark-bg:focus {
+  color: #c6c9d8;
+  background-color: #191919;
+  border-color: #ee076e;
+  box-shadow: 0 0 2px 2px #ee076e;
+}
+
+form .dm-form-control-text-muted {
+  color: #6c757d !important;
+  margin-bottom: 0px;
+}
+
+form .dm-login-btn {
+  background-color: #191919;
+  color: white;
+  padding: 5px 20px;
+  border: 0px;
+  border-radius: 0px;
+}
+
+form .dm-login-btn:hover {
+  background-color: #101010;
+}

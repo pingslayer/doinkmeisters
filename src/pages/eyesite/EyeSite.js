@@ -14,6 +14,7 @@ import Results from "./results/Results";
 import ComingSoon from "../../components/comingsoon/ComingSoon";
 import NotFound from "../notfound/NotFound";
 import LoadingSpinner from "../../ui/loading-spinner/LoadingSpinner";
+import AddGames from "../eyesite/temp/AddGames";
 
 const EyeSite = () => {
   const categories = CategoriesData();
@@ -33,6 +34,11 @@ const EyeSite = () => {
   });
   routes.push(baseRoutes);
   routes.push(
+    <Route key={categories.length + 1} path="/eyesite/gamers-hub/add" exact>
+      <AddGames />
+    </Route>
+  );
+  routes.push(
     <Route key={categories.length + 1} path="/eyesite/*">
       <NotFound />
     </Route>
@@ -45,9 +51,7 @@ const EyeSite = () => {
       {/* Categories Section */}
       <Categories />
       {/* Nested Pages Section */}
-      <Container>
-        <Switch>{routes}</Switch>
-      </Container>
+      <Switch>{routes}</Switch>
     </Fragment>
   );
 };
