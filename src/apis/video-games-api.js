@@ -9,6 +9,7 @@ import {
   setDoc,
   doc,
   updateDoc,
+  addDoc,
 } from "firebase/firestore/lite";
 // import { onSnapshot, collection } from "firebase/firestore";
 // import { collection, getDocs } from "firebase/firestore";
@@ -42,14 +43,17 @@ export async function getAllVideoGamesActive() {
 }
 
 export async function addVideoGame(gameData) {
-  const docRef = await setDoc(doc(db, "video_games"), {
+  const createdAt = +new Date();
+  const id = createdAt + "-" + Math.random().toString(36).substr(2);
+  const docRef = await addDoc(collection(db, "video_games"), {
+    id: id,
     name: gameData.name,
     nick_name: gameData.nickName,
     logo_url: gameData.logoURL,
     description: gameData.description,
-    status: gameData.status,
-    created_at: +new Date(),
+    best_review: gameData.bestReview,
+    status: +gameData.status,
+    created_at: createdAt,
   });
-  console.log(docRef);
   return;
 }

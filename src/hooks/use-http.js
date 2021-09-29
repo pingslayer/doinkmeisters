@@ -5,7 +5,7 @@ function httpReducer(state, action) {
     return {
       data: null,
       error: null,
-      status: "pending",
+      status: "sending",
     };
   }
 

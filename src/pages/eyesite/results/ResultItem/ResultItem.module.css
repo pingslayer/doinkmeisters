@@ -1,2 +1,18 @@
-.dm-results-list-item {
+img {
+  height: 100%;
+}
+
+.dm-item-info {
+  padding: 10px;
+}
+
+.dm-item-info blockquote {
+  margin: 0;
+  text-align: left;
+  color: #212929;
+}
+
+.dm-item-info figcaption {
+  font-style: italic;
+  color: #566d6d;
 }
