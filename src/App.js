@@ -2,15 +2,21 @@ import React, { Suspense } from "react";
 import { Route, Switch, Redirect } from "react-router";
 //layout
 import Layout from "./layout/layout/Layout";
+//component
+import PrivateRoute from "./components/privateroute/PrivateRoute";
 //ui
 import LoadingSpinner from "./ui/loading-spinner/LoadingSpinner";
 //pages
-import Landing from "./pages/landing/Landing";
 import EyeSite from "./pages/eyesite/EyeSite";
 import Login from "./pages/login/Login";
+import Dashboard from "./pages/dashboard/Dashboard";
 import NotFound from "./pages/notfound/NotFound";
+//store
+import { useAuth } from "./store/AuthContext";
 
 function App() {
+  const { currentUser } = useAuth();
+
   const fallback = (
     <div className="centered">
       <LoadingSpinner />
@@ -28,8 +34,10 @@ function App() {
             <EyeSite />
           </Route>
           <Route path="/login" exact>
-            <Login />
+            {currentUser && <Redirect to="/dashboard" />}
+            {!currentUser && <Login />}
           </Route>
+          <PrivateRoute exact path="/dashboard" component={Dashboard} />
           <Route path="*">
             <NotFound />
           </Route>

@@ -1,23 +1,61 @@
-import { useState } from "react";
-import { Row, Col, Container, Form, Card, Button } from "react-bootstrap";
+import { useState, useRef, useCallback } from "react";
+import { useHistory } from "react-router-dom";
+import { Row, Col, Container, Form, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCampground,
-  faBaseballBall,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCampground } from "@fortawesome/free-solid-svg-icons";
+//ui
+import LoadingSpinnerXS from "../../ui/loading-spinner-xs/LoadingSpinnerXS";
 //css
 import "bootstrap/dist/css/bootstrap.min.css";
 import classes from "./Login.module.css";
+//store
+import { useAuth } from "../../store/AuthContext";
 
 const Login = () => {
-  const [isErrorMessageVisible, setIsErrorMessageVisible] = useState(false);
+  const history = useHistory();
+  const { login } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const validateLoginForm = (event) => {
-    event.preventDefault();
-    setIsErrorMessageVisible(true);
+  const loginFormRef = useRef();
+  const usernameRef = useRef();
+  const passwordRef = useRef();
+
+  const showErrorMessageTimeout = useCallback((errorMessage) => {
+    setIsLoading(false);
+    setErrorMessage(errorMessage);
     setTimeout(() => {
-      setIsErrorMessageVisible(false);
+      setErrorMessage("");
     }, 3000);
+  }, []);
+
+  const validateLoginFormHandler = async (event) => {
+    event.preventDefault();
+
+    setIsLoading(true);
+    setErrorMessage("");
+
+    const username = usernameRef.current.value;
+    const password = passwordRef.current.value;
+
+    if (username.length === 0) {
+      showErrorMessageTimeout("Invaild Username");
+      return;
+    }
+
+    if (password.length === 0) {
+      showErrorMessageTimeout("Invaild Password");
+      return;
+    }
+
+    try {
+      await login(username, password);
+      history.replace("/dashboard");
+    } catch {
+      showErrorMessageTimeout("ACCESS DENIED");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -37,13 +75,13 @@ const Login = () => {
                     <h5>SecuroLaunch</h5>
                   </div>
                   <p className="text-center mb-3">
-                    {isErrorMessageVisible ? (
-                      <p className="text-center text-danger">ACCESS DENIED</p>
+                    {errorMessage !== "" ? (
+                      <p className="text-center text-danger">{errorMessage}</p>
                     ) : (
                       "PLEASE LOG IN"
                     )}
                   </p>
-                  <Form onSubmit={validateLoginForm}>
+                  <Form onSubmit={validateLoginFormHandler} ref={loginFormRef}>
                     <Form.Group as={Row}>
                       <Form.Label column sm={3}>
                         Username
@@ -53,6 +91,7 @@ const Login = () => {
                           type="text"
                           placeholder=""
                           className={`${classes["dm-form-control-dark-bg"]} mb-3`}
+                          ref={usernameRef}
                         />
                       </Col>
                     </Form.Group>
@@ -65,6 +104,7 @@ const Login = () => {
                           type="password"
                           placeholder=""
                           className={`${classes["dm-form-control-dark-bg"]} mb-3`}
+                          ref={passwordRef}
                         />
                       </Col>
                     </Form.Group>
@@ -80,13 +120,15 @@ const Login = () => {
                         lg={{ span: 4 }}
                         className="d-flex justify-content-end"
                       >
-                        {!isErrorMessageVisible && (
+                        {isLoading === false ? (
                           <button
                             type="submit"
                             className={classes["dm-login-btn"]}
                           >
                             Log In
                           </button>
+                        ) : (
+                          <LoadingSpinnerXS />
                         )}
                       </Col>
                     </Form.Group>

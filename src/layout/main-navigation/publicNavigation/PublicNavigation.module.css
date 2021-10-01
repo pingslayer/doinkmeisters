@@ -1,0 +1,37 @@
+.dm-header {
+  min-height: 9rem;
+  background-color: #191919;
+}
+
+.dm-logo {
+  font-size: 3rem;
+  font-weight: bolder;
+  background: #f81f01;
+  background: -webkit-linear-gradient(
+    to bottom right,
+    #f81f01 0%,
+    #ee076e 100%
+  );
+  background: -moz-linear-gradient(to bottom right, #f81f01 0%, #ee076e 100%);
+  background: linear-gradient(to bottom right, #f81f01 0%, #ee076e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dm-nav-item {
+  margin-left: 1.5rem;
+  font-size: 1.25rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #c6c9d8;
+}
+
+.nav a:hover,
+.nav a:active,
+.nav a.active {
+  color: #ee076e;
+  webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}

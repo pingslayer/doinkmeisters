@@ -11,8 +11,11 @@ import useHttp from "../../../hooks/use-http";
 import { addVideoGame } from "../../../apis/video-games-api";
 //config
 import Properties from "../../../config/properties.js";
+//store
+import { useAuth } from "../../../store/AuthContext";
 
 const AddGames = () => {
+  const { currentUser } = useAuth();
   const [isAddVideoGameFormValid, setIsAddVideoGameFormValid] = useState(false);
   const addVideoGameFormRef = useRef();
   const nameRef = useRef();
@@ -30,7 +33,7 @@ const AddGames = () => {
     error,
   } = useHttp(addVideoGame, true);
 
-  function validateAddGameForm(event) {
+  function validateAddGameFormHandler(event) {
     event.preventDefault();
     const passCode = passCodeRef.current.value;
     const passCodeReduced = passCode.replace(/ /g, "").toLowerCase();
@@ -56,21 +59,22 @@ const AddGames = () => {
       logoURL: logoURL,
       description: description,
       bestReview: bestReview,
-      status: status,
+      status: +status,
+      userId: currentUser.uid,
     };
 
     sendRequest(gameData);
   }
 
-  function clearAddGameForm() {
+  function clearAddGameFormHandler() {
     addVideoGameFormRef.current.reset();
   }
 
   useEffect(() => {
     if (status === "completed") {
-      clearAddGameForm();
+      clearAddGameFormHandler();
     }
-  }, [clearAddGameForm]);
+  }, [clearAddGameFormHandler]);
 
   return (
     <Fragment>
@@ -81,7 +85,10 @@ const AddGames = () => {
             <Row>
               <Col lg={12} md={12} sm={12}>
                 <br />
-                <Form onSubmit={validateAddGameForm} ref={addVideoGameFormRef}>
+                <Form
+                  onSubmit={validateAddGameFormHandler}
+                  ref={addVideoGameFormRef}
+                >
                   <Form.Group as={Row}>
                     <Form.Label column sm={2}>
                       Name
@@ -186,7 +193,7 @@ const AddGames = () => {
                       <button
                         type="button"
                         className={classes["dm-form-btn"]}
-                        onClick={clearAddGameForm}
+                        onClick={clearAddGameFormHandler}
                       >
                         Clear
                       </button>

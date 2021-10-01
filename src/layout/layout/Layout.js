@@ -1,15 +1,31 @@
 import { Fragment } from "react";
 //components
-import MainNavigation from "../main-navigation/MainNavigation";
+import PublicNavigation from "../main-navigation/publicNavigation/PublicNavigation";
+import Aside from "../aside/Aside";
 //css
 import classes from "./Layout.module.css";
+//store
+import { useAuth } from "../../store/AuthContext";
 
 const Layout = (props) => {
+  const { currentUser } = useAuth();
   return (
-    <Fragment>
-      <MainNavigation />
-      <main className={classes.main}>{props.children}</main>
-    </Fragment>
+    <div className={classes["dm-layout"]}>
+      {!currentUser && (
+        <Fragment>
+          <PublicNavigation />
+          <div className={classes["dm-main-with-top-nav"]}>
+            {props.children}
+          </div>
+        </Fragment>
+      )}
+      {currentUser && (
+        <div className={classes["dm-layout-dashboard"]}>
+          <Aside />
+          <div className={classes["dm-dashboard-main"]}>{props.children}</div>
+        </div>
+      )}
+    </div>
   );
 };
 

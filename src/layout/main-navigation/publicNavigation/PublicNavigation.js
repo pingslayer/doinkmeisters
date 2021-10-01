@@ -1,10 +1,14 @@
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+//store
+import { useAuth } from "../../../store/AuthContext";
 //css
-import classes from "./MainNavigation.module.css";
+import classes from "./PublicNavigation.module.css";
 
-const MainNavigation = () => {
+const PublicNavigation = () => {
   return (
     <Navbar collapseOnSelect expand="lg" className={classes["dm-header"]}>
       <Container>
@@ -45,4 +49,4 @@ const MainNavigation = () => {
   );
 };
 
-export default MainNavigation;
+export default PublicNavigation;
