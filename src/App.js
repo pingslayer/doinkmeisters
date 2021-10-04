@@ -28,7 +28,7 @@ function App() {
       <Suspense fallback={fallback}>
         <Switch>
           <Route path="/" exact>
-            <Redirect to="/eyesite" />
+            <Redirect to="/dashboard" />
           </Route>
           <Route path="/eyesite">
             <EyeSite />
@@ -37,7 +37,7 @@ function App() {
             {currentUser && <Redirect to="/dashboard" />}
             {!currentUser && <Login />}
           </Route>
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
           <Route path="*">
             <NotFound />
           </Route>

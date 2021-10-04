@@ -50,7 +50,7 @@ const Results = (props) => {
     );
   }
 
-  if (loadedData.length === 0 || loadedData == null) {
+  if (loadedData === null || loadedData.length === 0) {
     return (
       <div className="text-center mt-5">
         <FontAwesomeIcon

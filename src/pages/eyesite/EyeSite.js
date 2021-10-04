@@ -1,7 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Container } from "react-bootstrap";
 import { Route, Switch, Redirect } from "react-router";
-import { collection, getDocs } from "firebase/firestore/lite";
 //css
 import "bootstrap/dist/css/bootstrap.min.css";
 import classes from "./EyeSite.module.css";
@@ -11,9 +9,7 @@ import { CategoriesData } from "../../store/eyesite";
 import Search from "./search/Search";
 import Categories from "./categories/Categories";
 import Results from "./results/Results";
-import ComingSoon from "../../components/comingsoon/ComingSoon";
 import NotFound from "../notfound/NotFound";
-import LoadingSpinner from "../../ui/loading-spinner/LoadingSpinner";
 import AddGames from "../eyesite/temp/AddGames";
 
 const EyeSite = () => {
@@ -22,7 +18,7 @@ const EyeSite = () => {
   var routes = [];
   routes.push(
     <Route key={0} path="/eyesite" exact>
-      <Redirect to="/eyesite/gamers-hub" />
+      <Redirect to="/eyesite/media-and-entertainment" />
     </Route>
   );
   var baseRoutes = categories.map((category) => {

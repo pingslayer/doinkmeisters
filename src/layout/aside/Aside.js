@@ -9,7 +9,9 @@ import {
   SidebarContent,
 } from "react-pro-sidebar";
 import { NavLink, useHistory } from "react-router-dom";
+import { Button } from "react-bootstrap";
 //css
+import "react-pro-sidebar/dist/css/styles.css";
 import classes from "./Aside.module.css";
 //stote
 import { CategoriesData } from "../../store/eyesite";
@@ -61,10 +63,17 @@ const Aside = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
           </MenuItem>
           <SubMenu title="Eyesite">
             {categories.map((category) => {
+              const toBuilder = "/dashboard" + category.url;
               return (
                 <MenuItem key={category.id}>
                   <span className={classes["dm-sidebar-item"]}>
-                    {category.name}
+                    <NavLink
+                      to={toBuilder}
+                      className={classes["dm-nav-item"]}
+                      activeClassName={classes.active}
+                    >
+                      {category.nameCasual}
+                    </NavLink>
                   </span>
                 </MenuItem>
               );

@@ -1,6 +1,7 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import "firebase/compat/storage";
 
 const app = firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -14,8 +15,13 @@ const app = firebase.initializeApp({
 
 const firestore = app.firestore();
 export const database = {
-  videoGames: firestore.collection("video_games"),
+  mediaAndEntertainment: firestore.collection("media_and_entertainment"),
+  gamersHub: firestore.collection("gamers_hub"),
+  coffeeBreaks: firestore.collection("coffee_breaks"),
+  dopeTech: firestore.collection("dope_tech"),
+  fashionAndHealth: firestore.collection("fashion_and_health"),
   getCurrentTimestamp: firebase.firestore.FieldValue.serverTimestamp,
 };
+export const storage = app.storage();
 export const auth = app.auth();
 export default app;

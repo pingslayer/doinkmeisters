@@ -1,15 +1,34 @@
-import React, { useState } from "react";
-import { Container, Nav, NavLink } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCampground } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
+import { Route, Switch, Redirect } from "react-router";
 //components
-import Sidebar from "../../components/sidebar/Sidebar";
+import Home from "./home/Home";
+import Eyesite from "./eyesite/Eyesite";
 //css
-import "react-pro-sidebar/dist/css/styles.css";
 import classes from "./Dashboard.module.css";
+//store
+import { CategoriesData } from "../../store/eyesite";
 
 const Dashboard = () => {
-  return <div className={classes["dm-dashboard-wrapper"]}>Hello</div>;
+  const categories = CategoriesData();
+
+  var categoriesRoutes = categories.map((category) => {
+    return (
+      <Route key={category.id} path={"/dashboard" + category.url} exact>
+        <Eyesite category={category} />
+      </Route>
+    );
+  });
+
+  return (
+    <div className={classes["dm-dashboard-wrapper"]}>
+      <Switch>
+        <Route key={0} path="/dashboard" exact>
+          <Home />
+        </Route>
+        {categoriesRoutes}
+      </Switch>
+    </div>
+  );
 };
 
 export default Dashboard;
