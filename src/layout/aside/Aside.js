@@ -36,57 +36,55 @@ const Aside = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
   };
 
   return (
-    <div className={classes["dm-dashboard-sidebar"]}>
-      <ProSidebar
-        collapsed={collapsed}
-        toggled={toggled}
-        breakPoint="md"
-        onToggle={handleToggleSidebar}
-      >
-        <SidebarHeader>
-          <div className={classes["dm-logo"]}>
-            <h2>Doinkmeisters</h2>
-          </div>
-        </SidebarHeader>
+    <ProSidebar
+      collapsed={collapsed}
+      toggled={toggled}
+      breakPoint="md"
+      onToggle={handleToggleSidebar}
+    >
+      <SidebarHeader>
+        <div className={classes["dm-logo"]}>
+          <h2>Doinkmeisters</h2>
+        </div>
+      </SidebarHeader>
 
-        <SidebarContent>
-          <Menu iconShape="square">
-            <MenuItem>
-              <NavLink
-                to="/dashboard"
-                className={classes["dm-nav-item"]}
-                activeClassName={classes.active}
-              >
-                Dashboard
-              </NavLink>
-            </MenuItem>
-            <SubMenu title="Eyesite">
-              {categories.map((category) => {
-                return (
-                  <MenuItem key={category.id}>
-                    <span className={classes["dm-sidebar-item"]}>
-                      {category.name}
-                    </span>
-                  </MenuItem>
-                );
-              })}
-            </SubMenu>
-            <MenuItem>
-              <NavLink
-                to="/logout"
-                className={classes["dm-nav-item"]}
-                activeClassName={classes.active}
-                onClick={logoutHandler}
-              >
-                Logout
-              </NavLink>
-            </MenuItem>
-          </Menu>
-        </SidebarContent>
+      <SidebarContent>
+        <Menu iconShape="square">
+          <MenuItem>
+            <NavLink
+              to="/dashboard"
+              className={classes["dm-nav-item"]}
+              activeClassName={classes.active}
+            >
+              Dashboard
+            </NavLink>
+          </MenuItem>
+          <SubMenu title="Eyesite">
+            {categories.map((category) => {
+              return (
+                <MenuItem key={category.id}>
+                  <span className={classes["dm-sidebar-item"]}>
+                    {category.name}
+                  </span>
+                </MenuItem>
+              );
+            })}
+          </SubMenu>
+          <MenuItem>
+            <NavLink
+              to="/logout"
+              className={classes["dm-nav-item"]}
+              activeClassName={classes.active}
+              onClick={logoutHandler}
+            >
+              Logout
+            </NavLink>
+          </MenuItem>
+        </Menu>
+      </SidebarContent>
 
-        <SidebarFooter style={{ textAlign: "center" }}></SidebarFooter>
-      </ProSidebar>
-    </div>
+      <SidebarFooter style={{ textAlign: "center" }}></SidebarFooter>
+    </ProSidebar>
   );
 };
 
