@@ -8,7 +8,7 @@ async function getAllActive() {
 }
 
 async function add(data) {
-  return database.gamersHub.add({
+  const response = await database.gamersHub.add({
     name: data.name,
     nick_name: data.nickName,
     description: data.description,
@@ -19,6 +19,7 @@ async function add(data) {
     created_at: database.getCurrentTimestamp(),
     created_by: data.userId,
   });
+  return response;
 }
 
 async function remove(id) {

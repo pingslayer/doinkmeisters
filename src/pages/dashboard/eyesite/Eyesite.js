@@ -1,9 +1,14 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Row, Col, Container, Form, Card, Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+//hook
+import useHttp from "../../../hooks/use-http";
 //components
 import Content from "./content/Content";
 import AddContent from "./addcontent/AddContent";
 //ui
+import LoadingSpinner from "../../../ui/loading-spinner/LoadingSpinner";
 import CardDarkWithBtn from "../../../ui/card-dark-with-btn/CardDarkWithBtn";
 //css
 import classes from "./Eyesite.module.css";
@@ -15,7 +20,11 @@ import { DopeTechAPIs } from "../../../apis/dope-tech-api";
 import { FashionAndHealthAPIs } from "../../../apis/fashion-and-health-api";
 
 const Eyesite = (props) => {
-  const [isAddContent, setIsAddContent] = useState(false);
+  const SHOW_ALL_VIEW = "SHOW_ALL_VIEW";
+  const ADD_VIEW = "ADD_VIEW";
+  const EDIT_VIEW = "EDIT_VIEW";
+
+  const [view, setView] = useState(SHOW_ALL_VIEW);
 
   const apiRefHandler = useCallback(() => {
     var apiRef = null;
@@ -47,13 +56,46 @@ const Eyesite = (props) => {
     return apiRef;
   }, []);
 
+  const {
+    sendRequest,
+    setRequestFunction,
+    status,
+    data: loadedData,
+    error,
+  } = useHttp(apiRefHandler().getAllActive, true);
+
   const showAllContentHandler = () => {
-    setIsAddContent(false);
+    setView(SHOW_ALL_VIEW);
   };
 
   const addContentHandler = () => {
-    setIsAddContent(true);
+    setView(ADD_VIEW);
   };
+
+  const deleteContentHandler = async (id) => {
+    setRequestFunction(apiRefHandler().remove);
+    await sendRequest(id);
+    reloadContentHandler();
+  };
+
+  const reloadContentHandler = () => {
+    setRequestFunction(apiRefHandler().getAllActive);
+    sendRequest();
+  };
+
+  useEffect(() => {
+    sendRequest();
+  }, []);
+
+  if (status === "pending" || status === "sending") {
+    return (
+      <div className={classes["dm-eyesite-wrapper"]}>
+        <div className="centered my-0" style={{ height: "100%" }}>
+          <LoadingSpinner />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={classes["dm-eyesite-wrapper"]}>
@@ -63,7 +105,7 @@ const Eyesite = (props) => {
           <div className="d-flex justify-content-between">
             <h4>{props.category.nameCasual}</h4>
 
-            {isAddContent ? (
+            {view === ADD_VIEW ? (
               <Button className="btn btn-dark" onClick={showAllContentHandler}>
                 Show All
               </Button>
@@ -75,14 +117,20 @@ const Eyesite = (props) => {
           </div>
         </Card>
         <br />
-        {isAddContent ? (
+        {view === ADD_VIEW && (
           <AddContent
             category={props.category}
             getApiRef={apiRefHandler}
             showAllContent={showAllContentHandler}
+            reloadContent={reloadContentHandler}
           />
-        ) : (
-          <Content getApiRef={apiRefHandler} />
+        )}
+        {view === SHOW_ALL_VIEW && (
+          <Content
+            status={status}
+            loadedData={loadedData}
+            onDeleteContent={deleteContentHandler}
+          />
         )}
       </Container>
     </div>

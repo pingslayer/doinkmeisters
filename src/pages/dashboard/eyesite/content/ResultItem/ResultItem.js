@@ -51,6 +51,7 @@ const ResultItem = (props) => {
           </Col>
         </Row>
       </CardGrey>
+      <br />
     </li>
   );
 };

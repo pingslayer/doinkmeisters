@@ -54,7 +54,14 @@ const AddContent = (props) => {
 
   useEffect(() => {
     if (status === "completed") {
+      setUploadingPhoto({
+        isUploading: false,
+        name: null,
+        progress: 0,
+        error: false,
+      });
       props.showAllContent();
+      props.reloadContent();
     }
   }, [status]);
 
@@ -210,7 +217,6 @@ const AddContent = (props) => {
     if (!validateAddForm()) {
       return;
     }
-
     setUploadingPhoto({
       isUploading: true,
       name: photoState.value.name,
@@ -236,16 +242,16 @@ const AddContent = (props) => {
       },
       () => {
         //error
+        setUploadingPhoto({
+          isUploading: true,
+          name: "An error has occurred while sending data over the network",
+          progress: 0,
+          error: true,
+        });
       },
       () => {
         //finally
         uploadTask.snapshot.ref.getDownloadURL().then((url) => {
-          setUploadingPhoto({
-            isUploading: false,
-            name: null,
-            progress: 0,
-            error: false,
-          });
           var photoBuilder = {
             name: +new Date() + photoState.value.name,
             url: url,
@@ -259,7 +265,7 @@ const AddContent = (props) => {
             photo: photoBuilder,
             userId: currentUser.uid,
           };
-          sendRequest(gameData).then();
+          sendRequest(gameData);
         });
       }
     );
@@ -427,12 +433,24 @@ const AddContent = (props) => {
                 </Form.Group>
               )}
               {uploadingPhoto.isUploading && (
-                <Toast className="w-100 d-block bg-dark">
+                <Toast
+                  className="w-100 d-block bg-dark"
+                  onClose={() => {
+                    setUploadingPhoto({
+                      isUploading: false,
+                      name: null,
+                      progress: 0,
+                      error: false,
+                    });
+                  }}
+                >
                   <Toast.Header
-                    className="text-truncate w-100 d-block bg-dark"
+                    className="text-center w-100 d-block bg-dark"
                     closeButton={uploadingPhoto.error}
                   >
-                    {uploadingPhoto.name == null ? "" : uploadingPhoto.name}
+                    {uploadingPhoto.name == null
+                      ? ""
+                      : "Uploading data, please wait."}
                   </Toast.Header>
                   <Toast.Body>
                     <ProgressBar
