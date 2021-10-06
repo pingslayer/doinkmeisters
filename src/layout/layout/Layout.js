@@ -28,10 +28,10 @@ const Layout = (props) => {
     <div className={classes["dm-layout"]}>
       {!currentUser && (
         <Fragment>
-          <PublicNavigation />
-          <div className={classes["dm-main-with-top-nav"]}>
-            {props.children}
+          <div className={classes["dm-top-nav"]}>
+            <PublicNavigation />
           </div>
+          <div className={classes["dm-main"]}>{props.children}</div>
         </Fragment>
       )}
       {currentUser && (

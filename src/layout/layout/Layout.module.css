@@ -1,15 +1,24 @@
 .dm-layout {
-  width: 100vw;
+  display: flex;
+  flex-flow: column;
   height: 100%;
 }
 
-.dm-main-with-top-nav {
-  height: calc(100% - 9rem);
+/* public layout components */
+
+.dm-top-nav {
+  flex: 0 1 auto;
 }
+
+.dm-main {
+  flex: 1 1 auto;
+}
+
+/* dashboard layout components */
 
 .dm-layout-dashboard {
+  flex: 1 1 auto;
   width: 100%;
-  height: 100%;
   margin: 0%;
   display: flex;
   flex-direction: row;

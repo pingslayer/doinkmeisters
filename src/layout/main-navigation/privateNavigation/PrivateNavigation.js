@@ -7,7 +7,7 @@ import classes from "./PrivateNavigation.module.css";
 
 const PrivateNavigation = ({ handleToggleSidebar }) => {
   return (
-    <Navbar bg="dark" className={classes["dm-private-navigation-bar"]}>
+    <Navbar className={classes["dm-private-navigation-bar"]}>
       <Nav className="me-auto"></Nav>
       <Nav>
         <ToggleButton handleToggleSidebar={handleToggleSidebar} />

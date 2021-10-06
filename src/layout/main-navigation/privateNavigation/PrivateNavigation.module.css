@@ -4,6 +4,7 @@
 
 @media (max-width: 768px) {
   .dm-private-navigation-bar {
+    background-color: #212121 !important;
     display: flex !important;
   }
 }

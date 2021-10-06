@@ -7,19 +7,42 @@
   color: #c6c9d8;
 }
 
-.dm-card {
+.dm-card-dark {
   padding: 30px;
   border-radius: 15px;
   background-color: #101010;
   color: white;
 }
 
+/* form {
+  padding-right: 20px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+form::-webkit-scrollbar {
+  width: 1em;
+}
+
+form::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
+}
+
+form::-webkit-scrollbar-thumb {
+  background-color: #ee076e;
+} */
+
 form .dm-form-control-dark-bg {
   width: 100%;
-  border: hidden;
   margin: 0 auto;
   color: #c6c9d8;
   background-color: #191919;
+}
+
+form .dm-form-control-dark-bg::placeholder {
+  color: rgb(101, 105, 109);
+  font-style: normal;
+  font-size: 14px;
 }
 
 form .dm-form-control-dark-bg:focus {
@@ -36,9 +59,17 @@ form .dm-form-control-text-muted {
 
 form .dm-form-control-text-area {
   resize: none;
+  height: 100px;
 }
 
-form .dm-form-btn {
+form .dm-form-control-message {
+  height: 20px;
+  font-style: italic;
+  font-size: 12px;
+  color: rgb(255, 172, 172);
+}
+
+.dm-form-btn {
   background-color: #191919;
   color: white;
   padding: 5px 20px;
@@ -48,11 +79,7 @@ form .dm-form-btn {
   margin-right: 10px;
 }
 
-form .dm-login-btn:hover {
-  background-color: #101010;
-}
-
-form .dm-upload-file-btn {
+.dm-upload-file-btn {
   background-color: #191919;
   color: white;
   width: 100%;

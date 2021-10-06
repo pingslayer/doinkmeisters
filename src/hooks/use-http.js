@@ -51,8 +51,13 @@ function useHttp(requestFunction, startWithPending = false) {
     [requestFunction]
   );
 
+  const setRequestFunction = useCallback((requestFunctionRef) => {
+    requestFunction = requestFunctionRef;
+  }, []);
+
   return {
     sendRequest,
+    setRequestFunction,
     ...httpState,
   };
 }

@@ -40,7 +40,7 @@ const PublicNavigation = () => {
               className={classes["dm-nav-item"]}
               activeClassName={classes.active}
             >
-              <Button variant="outline-danger">LOGIN</Button>
+              <Button variant="outline-danger">Securo</Button>
             </NavLink>
           </Nav>
         </Navbar.Collapse>
