@@ -12,14 +12,22 @@ import {
 //css
 import "bootstrap/dist/css/bootstrap.min.css";
 import classes from "./NotFound.module.css";
-//components
-import ComingSoon from "../../components/comingsoon/ComingSoon";
 
-const NotFound = () => {
+const NotFound = (props) => {
+  let modeClass;
+  if (props.mode === "dark") {
+    modeClass = classes["mode-dark"];
+  } else {
+    modeClass = classes["mode-white"];
+  }
   return (
-    <div className={classes["dm-notfound-wrapper"]}>
+    <div
+      className={`${classes["dm-coming-soon-message-container"]} ${modeClass}`}
+    >
       <Container>
-        <ComingSoon mode="light" />
+        <h2>404 PAGE NOT FOUND</h2>
+        <br />
+        <h4>LOOKS LIKE THIS PAGE GOT LOST IN THE MATRIX</h4>
       </Container>
     </div>
   );

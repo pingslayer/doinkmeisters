@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from "react-router";
 import Layout from "./layout/layout/Layout";
 //component
 import PrivateRoute from "./components/privateroute/PrivateRoute";
+import ComingSoon from "./components/comingsoon/ComingSoon";
 //ui
 import LoadingSpinner from "./ui/loading-spinner/LoadingSpinner";
 //pages
@@ -33,13 +34,16 @@ function App() {
           <Route path="/eyesite">
             <EyeSite />
           </Route>
+          <Route path="/about">
+            <ComingSoon mode="light" />
+          </Route>
           <Route path="/login" exact>
             {currentUser && <Redirect to="/dashboard" />}
             {!currentUser && <Login />}
           </Route>
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <Route path="*">
-            <NotFound />
+            <NotFound mode="light" />
           </Route>
         </Switch>
       </Suspense>

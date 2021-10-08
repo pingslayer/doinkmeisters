@@ -15,6 +15,7 @@ const Search = () => {
   return (
     <div className={classes["dm-search-wrapper"]}>
       <Container>
+        <br />
         <Row>
           <Col lg={10} md={10} sm={12}>
             <InputGroup size="lg">

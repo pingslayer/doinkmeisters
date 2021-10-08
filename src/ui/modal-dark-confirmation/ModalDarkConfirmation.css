@@ -1,0 +1,16 @@
+.modal-bg-dark .modal-content {
+  background-color: #1d1d1d;
+}
+
+.modal-bg-dark .modal-body {
+  padding: 20px;
+  color: white;
+}
+
+.modal-bg-dark .modal-footer {
+  border: none;
+}
+
+.modal-bg-dark button {
+  width: 90px;
+}

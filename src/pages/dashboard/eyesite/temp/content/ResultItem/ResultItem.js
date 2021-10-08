@@ -8,10 +8,12 @@ import CardGrey from "../../../../../ui/card-grey/CardGrey";
 import classes from "./ResultItem.module.css";
 
 const ResultItem = (props) => {
+  const editContentHandler = () => {
+    props.onEditContent(props.data);
+  };
+
   const deleteContentHandler = () => {
-    if (window.confirm("Are you sure you want to delete?")) {
-      props.onDelete(props.data.id);
-    }
+    props.onDeleteContent(props.data.id);
   };
 
   return (
@@ -39,6 +41,7 @@ const ResultItem = (props) => {
           <Col lg={2} md={2} sm={12}>
             <Button
               className={`btn btn-dark d-block my-2 ${classes["dm-btn-options"]}`}
+              onClick={editContentHandler}
             >
               <FontAwesomeIcon icon={faEdit} />
             </Button>

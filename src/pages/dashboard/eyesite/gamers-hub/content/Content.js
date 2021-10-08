@@ -3,7 +3,7 @@ import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 //components
 import ResultItem from "./ResultItem/ResultItem";
 //ui
-import CardDark from "../../../../ui/card-dark/CardDark";
+import CardDark from "../../../../../ui/card-dark/CardDark";
 //css
 import classes from "./Content.module.css";
 
@@ -40,7 +40,8 @@ const Content = (props) => {
             <ResultItem
               key={index}
               data={data}
-              onDelete={props.onDeleteContent}
+              onEditContent={props.onEditContent}
+              onDeleteContent={props.onDeleteContent}
             />
           ))}
         </ul>

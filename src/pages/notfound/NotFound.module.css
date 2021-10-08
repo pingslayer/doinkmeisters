@@ -1,4 +1,18 @@
-.dm-notfound-wrapper {
-  background-color: #101010;
-  height: 100%;
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,900&display=swap");
+
+.mode-white {
+  color: darkslategray;
+  background-color: white;
+}
+
+.mode-dark {
+  color: white;
+  background-color: #191919;
+}
+
+.dm-coming-soon-message-container {
+  font-family: "Merriweather", serif;
+  padding-top: 90px;
+  display: flex;
+  flex-flow: column;
 }

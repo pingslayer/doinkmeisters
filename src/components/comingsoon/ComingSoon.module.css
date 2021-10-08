@@ -1,11 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@1,900&display=swap");
 
 .mode-white {
-  color: white;
+  color: darkslategray;
+  background-color: white;
 }
 
 .mode-dark {
-  color: darkslategray;
+  color: white;
+  background-color: #191919;
 }
 
 .dm-coming-soon-message-container {

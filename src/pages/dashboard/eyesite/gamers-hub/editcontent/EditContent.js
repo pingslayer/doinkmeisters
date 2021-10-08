@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState, useRef } from "react";
-import { useHistory } from "react-router-dom";
-import { storage } from "../../../../firebase";
+import { storage } from "../../../../../firebase";
 import {
   Row,
   Col,
@@ -10,25 +9,32 @@ import {
   Button,
   ProgressBar,
   Toast,
+  Modal,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileUpload } from "@fortawesome/free-solid-svg-icons";
-import { v4 as uuidV4 } from "uuid";
 //components
-import LoadingSpinner from "../../../../ui/loading-spinner/LoadingSpinner";
+import {
+  validateNameHelper,
+  validateNickNameHelper,
+  validateLinkHelper,
+  validateDescriptionHelper,
+  validateBestReviewHelper,
+  validateEditPhotoHelper,
+} from "../helpers/Validation";
+//ui
+import ModalDark from "../../../../../ui/modal-dark/ModalDark";
 //css
-import classes from "./AddContent.module.css";
+import classes from "./EditContent.module.css";
 //hooks
-import useHttp from "../../../../hooks/use-http";
-//store
-import { useAuth } from "../../../../store/AuthContext";
+import useHttp from "../../../../../hooks/use-http";
 
-const AddContent = (props) => {
+const EditContent = (props) => {
   /**
    * initilizations
    */
-  const { currentUser } = useAuth();
   const STORAGE_FOLDER = "gamers_hub";
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState({
     isUploading: false,
     name: null,
@@ -37,7 +43,7 @@ const AddContent = (props) => {
   });
   const defaultBorder = { border: "1px solid transparent" };
   const errorBorder = { border: "1px solid red" };
-  var requestFunction = props.getApiRef().add;
+  var requestFunction = props.apiRef.update;
   const initState = {
     value: "",
     message: "",
@@ -60,125 +66,88 @@ const AddContent = (props) => {
         progress: 0,
         error: false,
       });
-      props.showAllContent();
       props.reloadContent();
+      props.showAllContent();
     }
   }, [status]);
 
   /**
    * form states
    */
-  const [nameState, setNameState] = useState({ ...initState });
-  const [nickNameState, setNickNameState] = useState({ ...initState });
-  const [descriptionState, setDescriptionState] = useState({ ...initState });
-  const [bestReviewState, setBestReviewState] = useState({ ...initState });
+  const [nameState, setNameState] = useState({
+    ...initState,
+    value: props.content.name,
+  });
+  const [nickNameState, setNickNameState] = useState({
+    ...initState,
+    value: props.content.nick_name,
+  });
+  const [linkState, setLinkState] = useState({
+    ...initState,
+    value: props.content.link,
+  });
+  const [descriptionState, setDescriptionState] = useState({
+    ...initState,
+    value: props.content.description,
+  });
+  const [bestReviewState, setBestReviewState] = useState({
+    ...initState,
+    value: props.content.best_review,
+  });
   const [photoState, setPhotoState] = useState({
     ...initState,
     value: undefined,
+    snapshot: { name: props.content.photo_name, url: props.content.photo_url },
   });
 
   /**
    * validators
+   * Helper functions to validate and set state
    */
   function validateName(value) {
-    let data = {
-      value: value,
-      message: "",
-      isError: false,
-      isPristine: false,
-    };
-    if (value.trim() === "") {
-      data.isError = true;
-      data.message = "Name cannot be blank";
-    }
-    if (value.lenght > 255) {
-      data.isError = true;
-      data.message = "Name cannot be more than 255 characters";
-    }
+    let data = validateNameHelper(value);
     setNameState(data);
   }
 
   function validateNickName(value) {
-    let data = {
-      value: value,
-      message: "",
-      isError: false,
-      isPristine: false,
-    };
-    if (value.trim() === "") {
-      data.isError = true;
-      data.message = "Nick Name cannot be blank";
-    } else if (value.lenght > 255) {
-      data.isError = true;
-      data.message = "Nick Name cannot be more than 255 characters";
-    }
+    let data = validateNickNameHelper(value);
     setNickNameState(data);
   }
 
+  function validateLink(value) {
+    let data = validateLinkHelper(value);
+    setLinkState(data);
+  }
+
   function validateDescription(value) {
-    let data = {
-      value: value,
-      message: "",
-      isError: false,
-      isPristine: false,
-    };
-    if (value.trim() === "") {
-      data.isError = true;
-      data.message = "Description cannot be blank";
-    } else if (value.lenght > 1000) {
-      data.isError = true;
-      data.message = "Description cannot be more than 1000 characters";
-    }
+    let data = validateDescriptionHelper(value);
     setDescriptionState(data);
   }
 
   function validateBestReview(value) {
-    let data = {
-      value: value,
-      message: "",
-      isError: false,
-      isPristine: false,
-    };
-    if (value.trim() === "") {
-      data.isError = true;
-      data.message = "Best review cannot be blank";
-    } else if (value.lenght > 1000) {
-      data.isError = true;
-      data.message = "Best review cannot be more than 1000 characters";
-    }
+    let data = validateBestReviewHelper(value);
     setBestReviewState(data);
   }
 
   function validatePhoto(value) {
-    let data = {
-      value: value,
-      message: "",
-      isError: false,
-      isPristine: false,
-    };
-    if (value === null || value === undefined) {
-      data.isError = true;
-      data.message = "Photo is required";
-    } else if (!value.type.match("image.*")) {
-      data.isError = true;
-      data.message = "Only JPG, JPEG or PNG Allowed";
-    }
+    let data = validateEditPhotoHelper(value);
     setPhotoState(data);
   }
 
-  function validateAddForm() {
+  function validateEditForm() {
     validateName(nameState.value);
     validateNickName(nickNameState.value);
+    validateLink(linkState.value);
     validateDescription(descriptionState.value);
     validateBestReview(bestReviewState.value);
     validatePhoto(photoState.value);
-
     if (
-      nameState.isError ||
-      nickNameState.isError ||
-      descriptionState.isError ||
-      bestReviewState.isError ||
-      photoState.isError
+      (nameState.isError && !nameState.isPristine) ||
+      (nickNameState.isError && !nickNameState.isPristine) ||
+      (linkState.isError && !linkState.isPristine) ||
+      (descriptionState.isError && !descriptionState.isPristine) ||
+      (bestReviewState.isError && !bestReviewState.isPristine) ||
+      (photoState.isError && !photoState.isPristine)
     ) {
       return false;
     }
@@ -198,6 +167,11 @@ const AddContent = (props) => {
     validateNickName(value);
   }
 
+  function onLinkChangeHandler(event) {
+    let value = event.target.value;
+    validateLink(value);
+  }
+
   function onDescriptionChangeHandler(event) {
     let value = event.target.value;
     validateDescription(value);
@@ -213,17 +187,50 @@ const AddContent = (props) => {
     validatePhoto(value);
   }
 
+  function onModalOpenHandler() {
+    setIsModalVisible(true);
+  }
+
+  function onModalCloseHandler() {
+    setIsModalVisible(false);
+  }
+
+  async function onCancelHandler() {
+    props.showAllContent();
+  }
+
   async function onSubmitHandler() {
-    if (!validateAddForm()) {
+    if (!validateEditForm()) {
       return;
     }
     setUploadingPhoto({
       isUploading: true,
-      name: photoState.value.name,
+      name: "Uploading data, please wait",
       progress: 0,
       error: false,
     });
 
+    // if new photo is not set
+    if (photoState.value === null || photoState.value === undefined) {
+      var photoBuilder = {
+        name: photoState.snapshot.name,
+        url: photoState.snapshot.url,
+      };
+      const data = {
+        id: props.content.id,
+        name: nameState.value,
+        nickName: nickNameState.value,
+        link: linkState.value,
+        description: descriptionState.value,
+        bestReview: bestReviewState.value,
+        photo: photoBuilder,
+        status: props.content.status,
+      };
+      sendRequest(data);
+      return;
+    }
+
+    // if new phot is set
     const uploadTask = storage
       .ref(`${STORAGE_FOLDER}/${photoState.value.name}`)
       .put(photoState.value);
@@ -255,35 +262,66 @@ const AddContent = (props) => {
           var photoBuilder = {
             name: +new Date() + photoState.value.name,
             url: url,
-            file: photoState.value,
           };
-          const gameData = {
+          const data = {
+            id: props.content.id,
             name: nameState.value,
             nickName: nickNameState.value,
+            link: linkState.value,
             description: descriptionState.value,
             bestReview: bestReviewState.value,
             photo: photoBuilder,
-            userId: currentUser.uid,
+            status: props.content.status,
           };
-          sendRequest(gameData);
+          sendRequest(data);
         });
       }
     );
   }
 
   /**
-   * reset form Handlers
+   * reset form Handler
    */
-  function resetAddFormHandler() {
-    setNameState({ ...initState });
-    setNickNameState({ ...initState });
-    setDescriptionState({ ...initState });
-    setBestReviewState({ ...initState });
-    setPhotoState({ ...initState, value: undefined });
+  function onResetHandler() {
+    setNameState({
+      ...initState,
+      value: props.content.name,
+    });
+    setNickNameState({
+      ...initState,
+      value: props.content.nick_name,
+    });
+    setLinkState({
+      ...initState,
+      value: props.content.link,
+    });
+    setDescriptionState({
+      ...initState,
+      value: props.content.description,
+    });
+    setBestReviewState({
+      ...initState,
+      value: props.content.best_review,
+    });
+    setPhotoState({
+      ...initState,
+      value: undefined,
+      snapshot: {
+        name: props.content.photo_name,
+        url: props.content.photo_url,
+      },
+    });
   }
 
   return (
     <Fragment>
+      <ModalDark
+        isModalVisible={isModalVisible}
+        onModalCloseHandler={onModalCloseHandler}
+      >
+        <img src={props.content.photo_url} width="100%" />
+      </ModalDark>
+
       <div className={classes["dm-add-data-wrapper"]}>
         <Card className={classes["dm-card-dark"]}>
           <Row>
@@ -333,6 +371,29 @@ const AddContent = (props) => {
                     />
                     <p className={classes["dm-form-control-message"]}>
                       {nickNameState.message}
+                    </p>
+                  </Col>
+                </Form.Group>
+                {/* Link */}
+                <Form.Group as={Row}>
+                  <Form.Label column sm={2}>
+                    External Link
+                  </Form.Label>
+                  <Col sm={10}>
+                    <Form.Control
+                      type="text"
+                      placeholder="Provide a link, it can be a link to guide, blog or anything similar"
+                      className={`${classes["dm-form-control-dark-bg"]} mb-3`}
+                      style={
+                        !linkState.isPristine && linkState.isError
+                          ? errorBorder
+                          : defaultBorder
+                      }
+                      value={linkState.value}
+                      onChange={onLinkChangeHandler}
+                    />
+                    <p className={classes["dm-form-control-message"]}>
+                      {linkState.message}
                     </p>
                   </Col>
                 </Form.Group>
@@ -389,7 +450,17 @@ const AddContent = (props) => {
                   <Form.Label column sm={2}>
                     Photo
                   </Form.Label>
-                  <Col sm={10}>
+                  <Col sm={5}>
+                    {/* <img src={photoState.snapshot.url} width="100%" /> */}
+                    <button
+                      type="button"
+                      className={`btn btn-outline-dark btn-md mb-2 ${classes["dm-upload-file-btn"]}`}
+                      onClick={onModalOpenHandler}
+                    >
+                      Show current photo
+                    </button>
+                  </Col>
+                  <Col sm={5}>
                     <label
                       className={`btn btn-outline-dark btn-md mb-2 ${classes["dm-upload-file-btn"]}`}
                       style={
@@ -401,7 +472,7 @@ const AddContent = (props) => {
                       <FontAwesomeIcon icon={faFileUpload} />
                       &nbsp;&nbsp;&nbsp;
                       {photoState.value === undefined
-                        ? "Select Photo"
+                        ? "Select New Photo"
                         : photoState.value.name}
                       <input type="file" onChange={onPhotoChangeHandler} />
                     </label>
@@ -418,7 +489,15 @@ const AddContent = (props) => {
                     <button
                       type="button"
                       className={classes["dm-form-btn"]}
-                      onClick={resetAddFormHandler}
+                      onClick={onCancelHandler}
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      type="button"
+                      className={classes["dm-form-btn"]}
+                      onClick={onResetHandler}
                     >
                       Reset
                     </button>
@@ -427,7 +506,7 @@ const AddContent = (props) => {
                       onClick={onSubmitHandler}
                       className={classes["dm-form-btn"]}
                     >
-                      Add
+                      Update
                     </button>
                   </Col>
                 </Form.Group>
@@ -479,4 +558,4 @@ const AddContent = (props) => {
   );
 };
 
-export default AddContent;
+export default EditContent;

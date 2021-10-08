@@ -11,6 +11,7 @@ async function add(data) {
   const response = await database.gamersHub.add({
     name: data.name,
     nick_name: data.nickName,
+    link: data.link,
     description: data.description,
     best_review: data.bestReview,
     photo_name: data.photo.name,
@@ -22,6 +23,20 @@ async function add(data) {
   return response;
 }
 
+async function update(data) {
+  const response = await database.gamersHub.doc(data.id).update({
+    name: data.name,
+    nick_name: data.nickName,
+    link: data.link,
+    description: data.description,
+    best_review: data.bestReview,
+    photo_name: data.photo.name,
+    photo_url: data.photo.url,
+    status: data.status,
+  });
+  return response;
+}
+
 async function remove(id) {
   console.log("removing..." + id);
   await database.gamersHub.doc(id).delete();
@@ -29,9 +44,14 @@ async function remove(id) {
 
 async function uploadPhoto(photo) {}
 
+export const GamersHubPublicAPIs = {
+  getAllActive: getAllActive,
+};
+
 export const GamersHubAPIs = {
   getAllActive: getAllActive,
   add: add,
+  update: update,
   remove: remove,
   uploadPhoto: uploadPhoto,
 };

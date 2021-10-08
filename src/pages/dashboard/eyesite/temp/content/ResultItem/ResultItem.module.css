@@ -1,9 +1,3 @@
-.dm-item-link {
-  cursor: pointer;
-  text-decoration: none;
-  color: black;
-}
-
 img {
   height: 100%;
 }
@@ -15,10 +9,14 @@ img {
 .dm-item-info blockquote {
   margin: 0;
   text-align: left;
-  color: #212929;
+  color: #566d6d;
 }
 
 .dm-item-info figcaption {
   font-style: italic;
   color: #566d6d;
+}
+
+.dm-btn-options {
+  width: 100%;
 }

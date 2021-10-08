@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import {
   ProSidebar,
   Menu,
@@ -8,92 +8,101 @@ import {
   SidebarFooter,
   SidebarContent,
 } from "react-pro-sidebar";
-import { NavLink, useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import { NavLink, useHistory } from "react-router-dom";
+//ui
+import ModalDarkConfirmation from "../../ui/modal-dark-confirmation/ModalDarkConfirmation";
 //css
 import "react-pro-sidebar/dist/css/styles.css";
 import classes from "./Aside.module.css";
 //stote
-import { CategoriesData } from "../../store/eyesite";
 import { useAuth } from "../../store/AuthContext";
 
 const Aside = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
-  const categories = CategoriesData();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [error, setError] = useState("");
   const history = useHistory();
   const { logout } = useAuth();
 
   const logoutHandler = async (event) => {
     event.preventDefault();
-    if (window.confirm("Are you sure you want to logout?")) {
-      setError("");
-      try {
-        await logout();
-        history.replace("/login");
-      } catch {
-        setError("Failed to logout");
-        alert(error);
-      }
+    setIsModalVisible(true);
+  };
+
+  const onModalCloseHandler = () => {
+    setIsModalVisible(false);
+  };
+
+  const deleteContentConfirmationHandler = async (isAccepted) => {
+    setIsModalVisible(false);
+    if (isAccepted) {
+      await logout();
+      history.replace("/login");
     }
   };
 
   return (
-    <ProSidebar
-      collapsed={collapsed}
-      toggled={toggled}
-      breakPoint="md"
-      onToggle={handleToggleSidebar}
-    >
-      <SidebarHeader>
-        <div className={classes["dm-logo"]}>
-          <h2>Doinkmeisters</h2>
-        </div>
-      </SidebarHeader>
+    <Fragment>
+      <ModalDarkConfirmation
+        isModalVisible={isModalVisible}
+        onModalCloseHandler={onModalCloseHandler}
+        onConfirmation={deleteContentConfirmationHandler}
+      >
+        <h6>Are you sure you want to logout?</h6>
+      </ModalDarkConfirmation>
 
-      <SidebarContent>
-        <Menu iconShape="square">
-          <MenuItem>
-            <NavLink
-              to="/dashboard"
-              className={classes["dm-nav-item"]}
-              activeClassName={classes.active}
-            >
-              Dashboard
-            </NavLink>
-          </MenuItem>
-          <SubMenu title="Eyesite">
-            {categories.map((category) => {
-              const toBuilder = "/dashboard" + category.url;
-              return (
-                <MenuItem key={category.id}>
-                  <span className={classes["dm-sidebar-item"]}>
-                    <NavLink
-                      to={toBuilder}
-                      className={classes["dm-nav-item"]}
-                      activeClassName={classes.active}
-                    >
-                      {category.nameCasual}
-                    </NavLink>
-                  </span>
-                </MenuItem>
-              );
-            })}
-          </SubMenu>
-          <MenuItem>
-            <NavLink
-              to="/logout"
-              className={classes["dm-nav-item"]}
-              activeClassName={classes.active}
-              onClick={logoutHandler}
-            >
-              Logout
-            </NavLink>
-          </MenuItem>
-        </Menu>
-      </SidebarContent>
+      <ProSidebar
+        collapsed={collapsed}
+        toggled={toggled}
+        breakPoint="md"
+        onToggle={handleToggleSidebar}
+      >
+        <SidebarHeader>
+          <div className={classes["dm-logo"]}>
+            <h2>Doinkmeisters</h2>
+          </div>
+        </SidebarHeader>
 
-      <SidebarFooter style={{ textAlign: "center" }}></SidebarFooter>
-    </ProSidebar>
+        <SidebarContent>
+          <Menu iconShape="square">
+            <MenuItem>
+              <NavLink
+                to="/dashboard"
+                className={classes["dm-nav-item"]}
+                activeClassName={classes.active}
+              >
+                Home
+              </NavLink>
+            </MenuItem>
+            <SubMenu title="Eyesite">
+              <MenuItem>
+                <span className={classes["dm-sidebar-item"]}>
+                  <NavLink
+                    to="/dashboard/eyesite/gamers-hub"
+                    className={classes["dm-nav-item"]}
+                    activeClassName={classes.active}
+                  >
+                    Gamers hub
+                  </NavLink>
+                </span>
+              </MenuItem>
+            </SubMenu>
+            <MenuItem>
+              <NavLink
+                to="/logout"
+                className={classes["dm-nav-item"]}
+                activeClassName={classes.active}
+                onClick={logoutHandler}
+              >
+                <Button variant="outline-danger">Logout</Button>
+              </NavLink>
+            </MenuItem>
+          </Menu>
+        </SidebarContent>
+
+        <SidebarFooter style={{ textAlign: "center" }}></SidebarFooter>
+      </ProSidebar>
+    </Fragment>
   );
 };
 
