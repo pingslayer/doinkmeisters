@@ -9,6 +9,7 @@ import Content from "./content/Content";
 import AddContent from "./addcontent/AddContent";
 import EditContent from "./editcontent/EditContent";
 //ui
+import CardDark from "../../../../ui/card-dark/CardDark";
 import LoadingSpinner from "../../../../ui/loading-spinner/LoadingSpinner";
 import ModalDarkConfirmation from "../../../../ui/modal-dark-confirmation/ModalDarkConfirmation";
 //css
@@ -97,7 +98,7 @@ const GamersHub = (props) => {
       <div className={classes["dm-eyesite-wrapper"]}>
         <Container>
           <br />
-          <Card className={classes["dm-title-card"]}>
+          <CardDark>
             <div className="d-flex justify-content-between">
               <h4>
                 Gamers Hub {`>`} {view}
@@ -125,7 +126,7 @@ const GamersHub = (props) => {
                 </Button>
               )}
             </div>
-          </Card>
+          </CardDark>
           <br />
           {view === SHOW_ALL_VIEW && (
             <Content

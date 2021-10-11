@@ -87,14 +87,25 @@ const Aside = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
                 </span>
               </MenuItem>
             </SubMenu>
+            <SubMenu title="Account">
+              <MenuItem>
+                <NavLink
+                  to="/dashboard/account/change-password"
+                  className={classes["dm-nav-item"]}
+                  activeClassName={classes.active}
+                >
+                  Change Password
+                </NavLink>
+              </MenuItem>
+            </SubMenu>
             <MenuItem>
               <NavLink
                 to="/logout"
-                className={classes["dm-nav-item"]}
+                className={classes["dm-nav-item-red"]}
                 activeClassName={classes.active}
                 onClick={logoutHandler}
               >
-                <Button variant="outline-danger">Logout</Button>
+                Logout
               </NavLink>
             </MenuItem>
           </Menu>

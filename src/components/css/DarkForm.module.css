@@ -1,0 +1,45 @@
+.dm-form-control-dark-bg {
+  width: 100%;
+  margin: 0 auto;
+  color: #c6c9d8;
+  background-color: #191919;
+  border: 1px solid transparent;
+}
+
+.dm-form-control-dark-bg::placeholder {
+  color: rgb(101, 105, 109);
+  font-style: normal;
+  font-size: 14px;
+}
+
+.dm-form-control-dark-bg:focus {
+  color: #c6c9d8;
+  background-color: #191919;
+  border-color: #ee076e;
+  box-shadow: 0 0 2px 2px #ee076e;
+}
+
+.dm-form-control-default-border {
+  border: 1px solid transparent;
+}
+
+.dm-form-control-error-border {
+  border: 1px solid red;
+}
+
+.dm-form-control-message {
+  height: 20px;
+  font-style: italic;
+  font-size: 12px;
+  color: rgb(255, 172, 172);
+}
+
+.dm-form-btn {
+  background-color: #191919;
+  color: white;
+  padding: 5px 20px;
+  border: 0px;
+  border-radius: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+}

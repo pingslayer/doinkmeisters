@@ -17,3 +17,11 @@
   width: 100%;
   background-color: #2f4050;
 }
+
+.dm-nav-item-icon {
+  margin-right: 10px;
+}
+
+.dm-nav-item-red {
+  color: red !important;
+}

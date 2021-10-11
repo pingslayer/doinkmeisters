@@ -1,9 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+
 .info-box {
+  font-family: "Poppins", sans-serif;
   border: 1px solid lightgray;
   border-radius: 5px;
   padding: 5px;
   background-color: #f8f8ff;
-}
-
-.outro {
 }

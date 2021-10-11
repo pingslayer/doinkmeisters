@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router";
 //components
 import Home from "./home/Home";
 import GamersHub from "./eyesite/gamers-hub/GamersHub";
+import ChangePassword from "./account/change-password/ChangePassword";
 import NotFound from "../notfound/NotFound";
 //css
 import classes from "./Dashboard.module.css";
@@ -17,6 +18,9 @@ const Dashboard = () => {
         </Route>
         <Route path="/dashboard/eyesite/gamers-hub" exact>
           <GamersHub />
+        </Route>
+        <Route path="/dashboard/account/change-password" exact>
+          <ChangePassword />
         </Route>
         <Route path="/dashboard/*">
           <NotFound mode="light" />

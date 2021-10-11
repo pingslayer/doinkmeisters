@@ -20,6 +20,10 @@ const Home = () => {
             &#38; feature limitations
           </li>
           <li>Hosting &#38; Bandwidth is limited for now</li>
+          <li>
+            It is not fully mobile responsive yet, so meanwhile it's preferred
+            to be used on large screen devices
+          </li>
           <li>Do NOT spam unnecessary content</li>
           <li>In the end, your ideas and feedback is most appreciated</li>
         </ul>
