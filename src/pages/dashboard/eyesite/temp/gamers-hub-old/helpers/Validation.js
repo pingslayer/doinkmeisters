@@ -7,7 +7,7 @@ export const validateNameHelper = (value) => {
   };
   if (value.trim() === "") {
     data.isError = true;
-    data.message = "Name is required";
+    data.message = "Name cannot be blank";
   }
   if (value.length > 255) {
     data.isError = true;
@@ -30,24 +30,6 @@ export const validateNickNameHelper = (value) => {
   return data;
 };
 
-export const validateSummaryHelper = (value) => {
-  let data = {
-    value: value,
-    message: "",
-    isError: false,
-    isPristine: false,
-  };
-  if (value.trim() === "") {
-    data.isError = true;
-    data.message = "Summary is required";
-  }
-  if (value.length > 1000) {
-    data.isError = true;
-    data.message = "Summary cannot be more than 1000 characters";
-  }
-  return data;
-};
-
 export const validateLinkHelper = (value) => {
   let data = {
     value: value,
@@ -57,21 +39,24 @@ export const validateLinkHelper = (value) => {
   };
   if (value !== null && value !== undefined && value.trim() === "") {
     data.isError = true;
-    data.message = "Link is required";
+    data.message = "Link cannot be blank";
   }
   return data;
 };
 
 export const validateDescriptionHelper = (value) => {
   let data = {
-    value: value.content,
+    value: value,
     message: "",
     isError: false,
     isPristine: false,
   };
-  if (!value.hasText) {
+  if (value.trim() === "") {
     data.isError = true;
-    data.message = "Description is required";
+    data.message = "Description cannot be blank";
+  } else if (value.length > 1000) {
+    data.isError = true;
+    data.message = "Description cannot be more than 1000 characters";
   }
   return data;
 };

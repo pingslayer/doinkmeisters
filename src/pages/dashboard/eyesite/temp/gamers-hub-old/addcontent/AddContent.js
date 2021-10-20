@@ -6,15 +6,12 @@ import { faFileUpload } from "@fortawesome/free-solid-svg-icons";
 //components
 import {
   validateNameHelper,
-  validateSummaryHelper,
-  validatePhotoHelper,
+  validateNickNameHelper,
   validateLinkHelper,
   validateDescriptionHelper,
+  validateBestReviewHelper,
+  validatePhotoHelper,
 } from "../helpers/Validation";
-//ui
-import RadioDark from "../../../../../ui/radio-dark/RadioDark";
-import WysiwugEditorModded from "../../../../../ui/wysiwug-editor/WysiwugEditorModded";
-import CardGrey from "../../../../../ui/card-grey/CardGrey";
 //css
 import classes from "./AddContent.module.css";
 //hooks
@@ -50,11 +47,6 @@ const AddContent = (props) => {
     data: loadedData,
     error,
   } = useHttp(requestFunction, true);
-  const citations = [
-    { name: "Add An External Link", value: 1 },
-    { name: "Or Write Your Own Description", value: 2 },
-  ];
-  const [citation, setCitation] = useState(1);
 
   useEffect(() => {
     if (status === "completed") {
@@ -73,21 +65,14 @@ const AddContent = (props) => {
    * form states
    */
   const [nameState, setNameState] = useState({ ...initState });
-  const [summaryState, setSummaryState] = useState({ ...initState });
+  const [nickNameState, setNickNameState] = useState({ ...initState });
   const [linkState, setLinkState] = useState({ ...initState });
   const [descriptionState, setDescriptionState] = useState({ ...initState });
-  const [descriptionEditorState, setDescriptionEditorState] = useState({
-    ...initState,
-  });
+  const [bestReviewState, setBestReviewState] = useState({ ...initState });
   const [photoState, setPhotoState] = useState({
     ...initState,
     value: undefined,
   });
-
-  /**
-   * refs
-   */
-  const descriptionEditorRef = useRef(null);
 
   /**
    * validators
@@ -98,14 +83,9 @@ const AddContent = (props) => {
     setNameState(data);
   }
 
-  function validateSummary(value) {
-    let data = validateSummaryHelper(value);
-    setSummaryState(data);
-  }
-
-  function validatePhoto(value) {
-    let data = validatePhotoHelper(value);
-    setPhotoState(data);
+  function validateNickName(value) {
+    let data = validateNickNameHelper(value);
+    setNickNameState(data);
   }
 
   function validateLink(value) {
@@ -118,18 +98,32 @@ const AddContent = (props) => {
     setDescriptionState(data);
   }
 
+  function validateBestReview(value) {
+    let data = validateBestReviewHelper(value);
+    setBestReviewState(data);
+  }
+
+  function validatePhoto(value) {
+    let data = validatePhotoHelper(value);
+    setPhotoState(data);
+  }
+
   function validateAddForm() {
     validateName(nameState.value);
-    validateSummary(summaryState.value);
-    validatePhoto(photoState.value);
+    validateNickName(nickNameState.value);
     validateLink(linkState.value);
-    validateDescription(descriptionEditorState);
+    validateDescription(descriptionState.value);
+    validateBestReview(bestReviewState.value);
+    validatePhoto(photoState.value);
 
-    if (nameState.isError || summaryState.isError || photoState.isError) {
-      return false;
-    } else if (citation == 1 && linkState.isError) {
-      return false;
-    } else if (citation == 2 && descriptionState.isError) {
+    if (
+      nameState.isError ||
+      nickNameState.isError ||
+      linkState.isError ||
+      descriptionState.isError ||
+      bestReviewState.isError ||
+      photoState.isError
+    ) {
       return false;
     }
     return true;
@@ -143,14 +137,9 @@ const AddContent = (props) => {
     validateName(value);
   }
 
-  function onSummaryChangeHandler(event) {
+  function onNickNameChangeHandler(event) {
     let value = event.target.value;
-    validateSummary(value);
-  }
-
-  function onPhotoChangeHandler(event) {
-    let value = event.target.files[0];
-    validatePhoto(value);
+    validateNickName(value);
   }
 
   function onLinkChangeHandler(event) {
@@ -158,35 +147,21 @@ const AddContent = (props) => {
     validateLink(value);
   }
 
-  function onDescriptionChangeHandler(editor) {
-    setDescriptionEditorState(editor);
-    validateDescription(editor);
+  function onDescriptionChangeHandler(event) {
+    let value = event.target.value;
+    validateDescription(value);
   }
 
-  function onCitationChangeHandler(value) {
-    setLinkState({ ...initState });
-    setDescriptionState({ ...initState });
-    setCitation(+value);
+  function onBestReviewChangeHandler(event) {
+    let value = event.target.value;
+    validateBestReview(value);
   }
 
-  /**
-   * reset form Handlers
-   */
-  function resetAddFormHandler() {
-    setNameState({ ...initState });
-    setSummaryState({ ...initState });
-    setPhotoState({ ...initState, value: undefined });
-    setLinkState({ ...initState });
-    setDescriptionState({ ...initState });
-    setDescriptionEditorState({ ...initState });
-    if (descriptionEditorRef.current) {
-      descriptionEditorRef.current.onResetHandler();
-    }
+  function onPhotoChangeHandler(event) {
+    let value = event.target.files[0];
+    validatePhoto(value);
   }
 
-  /**
-   * On Submit
-   */
   async function onSubmitHandler() {
     if (!validateAddForm()) {
       return;
@@ -233,17 +208,29 @@ const AddContent = (props) => {
           };
           const data = {
             name: nameState.value,
-            summary: summaryState.value,
-            photo: photoBuilder,
-            citation: citation,
+            nickName: nickNameState.value,
             link: linkState.value,
             description: descriptionState.value,
+            bestReview: bestReviewState.value,
+            photo: photoBuilder,
             userId: currentUser.uid,
           };
           sendRequest(data);
         });
       }
     );
+  }
+
+  /**
+   * reset form Handlers
+   */
+  function resetAddFormHandler() {
+    setNameState({ ...initState });
+    setNickNameState({ ...initState });
+    setLinkState({ ...initState });
+    setDescriptionState({ ...initState });
+    setBestReviewState({ ...initState });
+    setPhotoState({ ...initState, value: undefined });
   }
 
   return (
@@ -253,7 +240,7 @@ const AddContent = (props) => {
           <Row>
             <Col lg={12} md={12} sm={12}>
               <br />
-              <Form onSubmit={onSubmitHandler} className="mb-3">
+              <Form onSubmit={onSubmitHandler}>
                 {/* Name */}
                 <Form.Group as={Row}>
                   <Form.Label column sm={2}>
@@ -277,27 +264,97 @@ const AddContent = (props) => {
                     </p>
                   </Col>
                 </Form.Group>
-                {/* Summary */}
+                {/* Nick Name */}
                 <Form.Group as={Row}>
                   <Form.Label column sm={2}>
-                    Summary
+                    Nick Name
+                  </Form.Label>
+                  <Col sm={10}>
+                    <Form.Control
+                      type="text"
+                      placeholder="Maximum of 255 characters (optional)"
+                      className={`${classes["dm-form-control-dark-bg"]} mb-3`}
+                      style={
+                        !nickNameState.isPristine && nickNameState.isError
+                          ? errorBorder
+                          : defaultBorder
+                      }
+                      value={nickNameState.value}
+                      onChange={onNickNameChangeHandler}
+                    />
+                    <p className={classes["dm-form-control-message"]}>
+                      {nickNameState.message}
+                    </p>
+                  </Col>
+                </Form.Group>
+                {/* Link */}
+                <Form.Group as={Row}>
+                  <Form.Label column sm={2}>
+                    External Link
+                  </Form.Label>
+                  <Col sm={10}>
+                    <Form.Control
+                      type="text"
+                      placeholder="Provide a link, it can be a link to store page, guide, blog or anything similar"
+                      className={`${classes["dm-form-control-dark-bg"]} mb-3`}
+                      style={
+                        !linkState.isPristine && linkState.isError
+                          ? errorBorder
+                          : defaultBorder
+                      }
+                      value={linkState.value}
+                      onChange={onLinkChangeHandler}
+                    />
+                    <p className={classes["dm-form-control-message"]}>
+                      {linkState.message}
+                    </p>
+                  </Col>
+                </Form.Group>
+                {/* Description */}
+                <Form.Group as={Row}>
+                  <Form.Label column sm={2}>
+                    Description
                   </Form.Label>
                   <Col sm={10}>
                     <Form.Control
                       type="text"
                       as="textarea"
                       placeholder="Maximum of 1000 characters"
-                      className={`${classes["dm-form-control-dark-bg"]} ${classes["dm-form-control-text-area"]}`}
+                      className={`${classes["dm-form-control-dark-bg"]} ${classes["dm-form-control-text-area"]} mb-3`}
                       style={
-                        !summaryState.isPristine && summaryState.isError
+                        !descriptionState.isPristine && descriptionState.isError
                           ? errorBorder
                           : defaultBorder
                       }
-                      value={summaryState.value}
-                      onChange={onSummaryChangeHandler}
+                      value={descriptionState.value}
+                      onChange={onDescriptionChangeHandler}
                     />
                     <p className={classes["dm-form-control-message"]}>
-                      {summaryState.message}
+                      {descriptionState.message}
+                    </p>
+                  </Col>
+                </Form.Group>
+                {/* Best Review */}
+                <Form.Group as={Row}>
+                  <Form.Label column sm={2}>
+                    Best Review
+                  </Form.Label>
+                  <Col sm={10}>
+                    <Form.Control
+                      type="text"
+                      as="textarea"
+                      placeholder="Maximum of 1000 characters (optional)"
+                      className={`${classes["dm-form-control-dark-bg"]} ${classes["dm-form-control-text-area"]} mb-3`}
+                      style={
+                        !bestReviewState.isPristine && bestReviewState.isError
+                          ? errorBorder
+                          : defaultBorder
+                      }
+                      value={bestReviewState.value}
+                      onChange={onBestReviewChangeHandler}
+                    />
+                    <p className={classes["dm-form-control-message"]}>
+                      {bestReviewState.message}
                     </p>
                   </Col>
                 </Form.Group>
@@ -327,48 +384,6 @@ const AddContent = (props) => {
                     </p>
                   </Col>
                 </Form.Group>
-                <CardGrey>
-                  {/* citation toggler */}
-                  <div className="centered mt-0">
-                    <RadioDark
-                      value={citation}
-                      radios={citations}
-                      setRadioValue={onCitationChangeHandler}
-                    />
-                  </div>
-                  {/* Link */}
-                  {citation === 1 && (
-                    <Form.Group>
-                      <Form.Control
-                        type="text"
-                        placeholder="Provide a link, it can be a link to store page, guide, blog or anything similar"
-                        className={`${classes["dm-form-control-dark-bg"]} mb-3`}
-                        style={
-                          !linkState.isPristine && linkState.isError
-                            ? errorBorder
-                            : defaultBorder
-                        }
-                        value={linkState.value}
-                        onChange={onLinkChangeHandler}
-                      />
-                      <p className={classes["dm-form-control-message"]}>
-                        {linkState.message}
-                      </p>
-                    </Form.Group>
-                  )}
-                  {/* Description */}
-                  {citation === 2 && (
-                    <Form.Group className="mb-3">
-                      <WysiwugEditorModded
-                        onContentStateChange={onDescriptionChangeHandler}
-                        ref={descriptionEditorRef}
-                      />
-                      <p className={classes["dm-form-control-message"]}>
-                        {descriptionState.message}
-                      </p>
-                    </Form.Group>
-                  )}
-                </CardGrey>
               </Form>
               {!uploadingPhoto.isUploading && (
                 <Form.Group as={Row} className="mt-3 mb-3">

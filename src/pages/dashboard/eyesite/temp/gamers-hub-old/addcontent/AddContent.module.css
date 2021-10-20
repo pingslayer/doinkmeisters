@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+
+.dm-add-data-wrapper {
+  font-family: "Poppins", sans-serif;
+  background-color: #212121;
+  height: 100%;
+  color: #c6c9d8;
+}
+
+.dm-card-dark {
+  padding: 30px;
+  border-radius: 15px;
+  background-color: #101010;
+  color: white;
+}
+
+/* form {
+  padding-right: 20px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+form::-webkit-scrollbar {
+  width: 1em;
+}
+
+form::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
+}
+
+form::-webkit-scrollbar-thumb {
+  background-color: #ee076e;
+} */
+
+form .dm-form-control-dark-bg {
+  width: 100%;
+  margin: 0 auto;
+  color: #c6c9d8;
+  background-color: #191919;
+}
+
+form .dm-form-control-dark-bg::placeholder {
+  color: rgb(101, 105, 109);
+  font-style: normal;
+  font-size: 14px;
+}
+
+form .dm-form-control-dark-bg:focus {
+  color: #c6c9d8;
+  background-color: #191919;
+  border-color: #ee076e;
+  box-shadow: 0 0 2px 2px #ee076e;
+}
+
+form .dm-form-control-text-muted {
+  color: #6c757d !important;
+  margin-bottom: 0px;
+}
+
+form .dm-form-control-text-area {
+  resize: none;
+  height: 100px;
+}
+
+form .dm-form-control-message {
+  height: 20px;
+  font-style: italic;
+  font-size: 12px;
+  color: rgb(255, 172, 172);
+}
+
+.dm-form-btn {
+  background-color: #191919;
+  color: white;
+  padding: 5px 20px;
+  border: 0px;
+  border-radius: 0px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.dm-upload-file-btn {
+  background-color: #191919;
+  color: white;
+  width: 100%;
+}
+
+form .dm-upload-file-btn input {
+  display: none;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

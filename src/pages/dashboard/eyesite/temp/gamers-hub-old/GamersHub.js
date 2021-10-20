@@ -16,15 +16,11 @@ import ModalDarkConfirmation from "../../../../ui/modal-dark-confirmation/ModalD
 import classes from "./GamersHub.module.css";
 //apis
 import { GamersHubAPIs } from "../../../../apis/gamers-hub-api";
-//store
-import { useAuth } from "../../../../store/AuthContext";
 
 const GamersHub = (props) => {
-  const { currentUser } = useAuth();
-
-  const SHOW_ALL_VIEW = "All Content";
-  const ADD_VIEW = "Add Content";
-  const EDIT_VIEW = "Edit Content";
+  const SHOW_ALL_VIEW = "Show All";
+  const ADD_VIEW = "Add";
+  const EDIT_VIEW = "Edit";
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [view, setView] = useState(SHOW_ALL_VIEW);
@@ -37,7 +33,7 @@ const GamersHub = (props) => {
     status,
     data: loadedData,
     error,
-  } = useHttp(GamersHubAPIs.getAllByUserId, true);
+  } = useHttp(GamersHubAPIs.getAllActive, true);
 
   function onModalCloseHandler() {
     setIsModalVisible(false);
@@ -76,10 +72,7 @@ const GamersHub = (props) => {
   };
 
   useEffect(() => {
-    if (currentUser.email === process.env.REACT_APP_ADMIN_EMAIL) {
-      setRequestFunction(GamersHubAPIs.getAll);
-    }
-    sendRequest(currentUser.uid);
+    sendRequest();
   }, []);
 
   if (status === "pending" || status === "sending") {
@@ -107,6 +100,10 @@ const GamersHub = (props) => {
           <br />
           <CardDark>
             <div className="d-flex justify-content-between">
+              <h4>
+                Gamers Hub {`>`} {view}
+              </h4>
+
               {view === SHOW_ALL_VIEW && (
                 <Button className="btn btn-dark" onClick={addContentHandler}>
                   + Add
@@ -117,7 +114,7 @@ const GamersHub = (props) => {
                   className="btn btn-dark"
                   onClick={showAllContentHandler}
                 >
-                  &#60; Back
+                  Show All
                 </Button>
               )}
               {view === EDIT_VIEW && (
@@ -125,13 +122,9 @@ const GamersHub = (props) => {
                   className="btn btn-dark"
                   onClick={showAllContentHandler}
                 >
-                  &#60; Back
+                  Show All
                 </Button>
               )}
-
-              <h4>
-                Gamers Hub {`>`} {view}
-              </h4>
             </div>
           </CardDark>
           <br />

@@ -3,6 +3,9 @@ import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { Container } from "react-bootstrap";
+import ReactHtmlParser from "react-html-parser";
+//ui
+import ModalLightFullScreen from "../../../ui/modal-light-full-width/ModalLightFullScreen";
 //css
 import classes from "./Results.module.css";
 //components
@@ -12,6 +15,26 @@ import ResultItem from "./ResultItem/ResultItem";
 import useHttp from "../../../hooks/use-http";
 
 const Results = (props) => {
+  const [description, setDescription] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const onShowContentHandler = (data) => {
+    if (data.citation == 1) {
+      window.open(data.link, "_blank").focus();
+    } else if (data.citation == 2) {
+      setDescription(data.description);
+      onModalOpenHandler();
+    }
+  };
+
+  function onModalOpenHandler() {
+    setIsModalVisible(true);
+  }
+
+  function onModalCloseHandler() {
+    setIsModalVisible(false);
+  }
+
   const {
     sendRequest,
     status,
@@ -46,13 +69,25 @@ const Results = (props) => {
   }
 
   return (
-    <Container>
-      <ul className={classes["dm-results-list"]}>
-        {loadedData.map((data, index) => (
-          <ResultItem key={index} data={data} />
-        ))}
-      </ul>
-    </Container>
+    <Fragment>
+      <ModalLightFullScreen
+        isModalVisible={isModalVisible}
+        onModalCloseHandler={onModalCloseHandler}
+      >
+        {ReactHtmlParser(description)}
+      </ModalLightFullScreen>
+      <Container>
+        <ul className={classes["dm-results-list"]}>
+          {loadedData.map((data, index) => (
+            <ResultItem
+              key={index}
+              data={data}
+              onShowContent={onShowContentHandler}
+            />
+          ))}
+        </ul>
+      </Container>
+    </Fragment>
   );
 };
 

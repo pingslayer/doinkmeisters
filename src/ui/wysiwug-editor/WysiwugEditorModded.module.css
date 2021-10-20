@@ -1,0 +1,24 @@
+.wrapper {
+  height: 300px;
+}
+
+.toolbar-class {
+  background-color: #606060;
+  border-color: #606060;
+  color: black;
+}
+
+.toolbar-class a {
+  text-decoration: none;
+  color: black;
+}
+
+.wrapper-class {
+  background-color: #191919;
+}
+
+.editor-class {
+  background-color: white;
+  height: 200px;
+  color: black;
+}

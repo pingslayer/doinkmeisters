@@ -1,0 +1,11 @@
+.modal-60w {
+  max-width: 60vw;
+}
+
+.modal-bg-dark .modal-content {
+  background-color: #1d1d1d;
+}
+
+.modal-bg-dark .modal-footer {
+  border: none;
+}
