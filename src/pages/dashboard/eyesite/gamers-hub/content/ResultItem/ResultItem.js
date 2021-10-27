@@ -3,6 +3,8 @@ import ReactHtmlParser from "react-html-parser";
 import { Button, Row, Col, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
+//components
+import ResultItemImage from "./ResultItemImage/ResultItemImage";
 //ui
 import CardGrey from "../../../../../../ui/card-grey/CardGrey";
 //css
@@ -27,11 +29,7 @@ const ResultItem = (props) => {
         <CardGrey>
           <Row>
             <Col lg={3} md={3} sm={12}>
-              <img
-                src={props.data.photo_url}
-                className="img-thumbnail"
-                alt="No Image Found"
-              />
+              <ResultItemImage photoURL={props.data.photo_url} />
             </Col>
             <Col lg={7} md={7} sm={12}>
               <div className={classes["dm-item-info"]}>

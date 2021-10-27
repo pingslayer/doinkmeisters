@@ -1,0 +1,16 @@
+.dm-upload-file-btn {
+  background-color: #191919;
+  color: white;
+  width: 100%;
+}
+
+.dm-upload-file-btn input {
+  display: none;
+}
+
+.dm-form-control-message {
+  height: 20px;
+  font-style: italic;
+  font-size: 12px;
+  color: rgb(255, 172, 172);
+}

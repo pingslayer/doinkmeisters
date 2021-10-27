@@ -11,6 +11,7 @@ import {
   validateLinkHelper,
   validateDescriptionHelper,
 } from "../helpers/Validation";
+import ImgCropper from "../../../../../components/imgcropper/ImgCropper";
 //ui
 import RadioDark from "../../../../../ui/radio-dark/RadioDark";
 import WysiwugEditorModded from "../../../../../ui/wysiwug-editor/WysiwugEditorModded";
@@ -79,14 +80,12 @@ const AddContent = (props) => {
   const [descriptionEditorState, setDescriptionEditorState] = useState({
     ...initState,
   });
-  const [photoState, setPhotoState] = useState({
-    ...initState,
-    value: undefined,
-  });
+  const [photoState, setPhotoState] = useState(null);
 
   /**
    * refs
    */
+  const ImgCropperRef = useRef(null);
   const descriptionEditorRef = useRef(null);
 
   /**
@@ -103,11 +102,6 @@ const AddContent = (props) => {
     setSummaryState(data);
   }
 
-  function validatePhoto(value) {
-    let data = validatePhotoHelper(value);
-    setPhotoState(data);
-  }
-
   function validateLink(value) {
     let data = validateLinkHelper(value);
     setLinkState(data);
@@ -119,13 +113,13 @@ const AddContent = (props) => {
   }
 
   function validateAddForm() {
+    var photo = ImgCropperRef.current.validatePhotoImpHandle();
     validateName(nameState.value);
     validateSummary(summaryState.value);
-    validatePhoto(photoState.value);
     validateLink(linkState.value);
     validateDescription(descriptionEditorState);
 
-    if (nameState.isError || summaryState.isError || photoState.isError) {
+    if (nameState.isError || summaryState.isError || photo.isError) {
       return false;
     } else if (citation == 1 && linkState.isError) {
       return false;
@@ -148,9 +142,8 @@ const AddContent = (props) => {
     validateSummary(value);
   }
 
-  function onPhotoChangeHandler(event) {
-    let value = event.target.files[0];
-    validatePhoto(value);
+  function onGetCropperPhotoHandler(cropperPhotoData) {
+    setPhotoState(cropperPhotoData);
   }
 
   function onLinkChangeHandler(event) {
@@ -169,13 +162,21 @@ const AddContent = (props) => {
     setCitation(+value);
   }
 
+  function onCancelHandler() {
+    props.showAllContent();
+  }
+
   /**
    * reset form Handlers
    */
   function resetAddFormHandler() {
     setNameState({ ...initState });
     setSummaryState({ ...initState });
-    setPhotoState({ ...initState, value: undefined });
+    setPhotoState(null);
+    if (ImgCropperRef.current) {
+      ImgCropperRef.current.resetPhotoImpHandle();
+    }
+
     setLinkState({ ...initState });
     setDescriptionState({ ...initState });
     setDescriptionEditorState({ ...initState });
@@ -191,6 +192,7 @@ const AddContent = (props) => {
     if (!validateAddForm()) {
       return;
     }
+
     setUploadingPhoto({
       isUploading: true,
       name: photoState.value.name,
@@ -198,9 +200,13 @@ const AddContent = (props) => {
       error: false,
     });
 
+    let photoName = +new Date() + "-" + photoState.value.name;
+
     const uploadTask = storage
-      .ref(`${STORAGE_FOLDER}/${photoState.value.name}`)
-      .put(photoState.value);
+      .ref(`${STORAGE_FOLDER}/${photoName}`)
+      .putString(photoState.base64Value, "data_url", {
+        contentType: "image/jpeg",
+      });
 
     uploadTask.on(
       "state_changed",
@@ -227,7 +233,7 @@ const AddContent = (props) => {
         //finally
         uploadTask.snapshot.ref.getDownloadURL().then((url) => {
           var photoBuilder = {
-            name: +new Date() + photoState.value.name,
+            name: photoName,
             url: url,
             file: photoState.value,
           };
@@ -302,31 +308,14 @@ const AddContent = (props) => {
                   </Col>
                 </Form.Group>
                 {/* Photo */}
-                <Form.Group as={Row}>
-                  <Form.Label column sm={2}>
-                    Photo
-                  </Form.Label>
-                  <Col sm={10}>
-                    <label
-                      className={`btn btn-outline-dark btn-md mb-2 ${classes["dm-upload-file-btn"]}`}
-                      style={
-                        !photoState.isPristine && photoState.isError
-                          ? errorBorder
-                          : defaultBorder
-                      }
-                    >
-                      <FontAwesomeIcon icon={faFileUpload} />
-                      &nbsp;&nbsp;&nbsp;
-                      {photoState.value === undefined
-                        ? "Select Photo"
-                        : photoState.value.name}
-                      <input type="file" onChange={onPhotoChangeHandler} />
-                    </label>
-                    <p className={classes["dm-form-control-message"]}>
-                      {photoState.message}
-                    </p>
-                  </Col>
-                </Form.Group>
+                <CardGrey>
+                  <ImgCropper
+                    ref={ImgCropperRef}
+                    onGetCropperPhoto={onGetCropperPhotoHandler}
+                    validationHelperFn={validatePhotoHelper}
+                  />
+                </CardGrey>
+                <br />
                 <CardGrey>
                   {/* citation toggler */}
                   <div className="centered mt-0">
@@ -374,6 +363,13 @@ const AddContent = (props) => {
                 <Form.Group as={Row} className="mt-3 mb-3">
                   <Col lg={{ span: 8 }}></Col>
                   <Col lg={{ span: 4 }} className="d-flex justify-content-end">
+                    <button
+                      type="button"
+                      className={classes["dm-form-btn"]}
+                      onClick={onCancelHandler}
+                    >
+                      Cancel
+                    </button>
                     <button
                       type="button"
                       className={classes["dm-form-btn"]}

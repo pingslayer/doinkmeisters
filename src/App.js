@@ -29,17 +29,20 @@ function App() {
       <Suspense fallback={fallback}>
         <Switch>
           <Route path="/" exact>
-            <Redirect to="/dashboard" />
+            <Redirect to="/eyesite" />
           </Route>
           <Route path="/eyesite">
-            <EyeSite />
+            {!currentUser ? <EyeSite /> : <Redirect to="/dashboard" />}
           </Route>
           <Route path="/about">
-            <ComingSoon mode="light" />
+            {!currentUser ? (
+              <ComingSoon mode="light" />
+            ) : (
+              <Redirect to="/dashboard" />
+            )}
           </Route>
           <Route path="/login" exact>
-            {currentUser && <Redirect to="/dashboard" />}
-            {!currentUser && <Login />}
+            {!currentUser ? <Login /> : <Redirect to="/dashboard" />}
           </Route>
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <Route path="*">

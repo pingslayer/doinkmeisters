@@ -7,6 +7,11 @@ async function getAll() {
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 }
 
+async function getAllOrderByCreatedAt() {
+  const snapshot = await database.gamersHub.orderBy("created_at", "desc").get();
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+}
+
 async function getAllActive() {
   const snapshot = await database.gamersHub.where("status", "==", 1).get();
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -19,8 +24,15 @@ async function getAllByUserId(userId) {
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 }
 
+async function getAllByUserIdOrderByCreatedAt(userId) {
+  const snapshot = await database.gamersHub
+    .where("created_by", "==", userId)
+    .orderBy("created_at", "desc")
+    .get();
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+}
+
 async function add(data) {
-  console.log(data);
   const response = await database.gamersHub.add({
     name: data.name,
     summary: data.summary,
@@ -54,18 +66,15 @@ async function remove(id) {
   await database.gamersHub.doc(id).delete();
 }
 
-async function uploadPhoto(photo) {}
-
 export const GamersHubPublicAPIs = {
   getAllActive: getAllActive,
 };
 
 export const GamersHubAPIs = {
-  getAll: getAll,
   getAllActive: getAllActive,
-  getAllByUserId: getAllByUserId,
+  getAllOrderByCreatedAt: getAllOrderByCreatedAt,
+  getAllByUserIdOrderByCreatedAt: getAllByUserIdOrderByCreatedAt,
   add: add,
   update: update,
   remove: remove,
-  uploadPhoto: uploadPhoto,
 };

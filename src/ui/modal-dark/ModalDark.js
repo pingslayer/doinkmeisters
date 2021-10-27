@@ -14,7 +14,7 @@ const ModalDark = (props) => {
       <Modal.Body>{props.children}</Modal.Body>
 
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.onModalCloseHandler}>
+        <Button variant="secondary mx-auto" onClick={props.onModalCloseHandler}>
           Close
         </Button>
       </Modal.Footer>

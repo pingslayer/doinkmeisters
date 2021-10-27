@@ -112,9 +112,10 @@ export const validateEditPhotoHelper = (value) => {
     value: value,
     message: "",
     isError: false,
-    isPristine: false,
+    isPristine: true,
   };
   if (value !== null && value !== undefined) {
+    data.isPristine = false;
     if (!value.type.match("image.*")) {
       data.isError = true;
       data.message = "Only JPG, JPEG or PNG Allowed";

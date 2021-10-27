@@ -22,7 +22,7 @@ import { useAuth } from "../../../../store/AuthContext";
 const GamersHub = (props) => {
   const { currentUser } = useAuth();
 
-  const SHOW_ALL_VIEW = "All Content";
+  const SHOW_ALL_VIEW = "Your Content";
   const ADD_VIEW = "Add Content";
   const EDIT_VIEW = "Edit Content";
 
@@ -37,7 +37,7 @@ const GamersHub = (props) => {
     status,
     data: loadedData,
     error,
-  } = useHttp(GamersHubAPIs.getAllByUserId, true);
+  } = useHttp(GamersHubAPIs.getAllByUserIdOrderByCreatedAt, true);
 
   function onModalCloseHandler() {
     setIsModalVisible(false);
@@ -71,15 +71,16 @@ const GamersHub = (props) => {
   };
 
   const reloadContentHandler = () => {
-    setRequestFunction(GamersHubAPIs.getAllActive);
-    sendRequest();
+    if (currentUser.email === process.env.REACT_APP_ADMIN_EMAIL) {
+      setRequestFunction(GamersHubAPIs.getAllOrderByCreatedAt);
+    } else {
+      setRequestFunction(GamersHubAPIs.getAllByUserIdOrderByCreatedAt);
+    }
+    sendRequest(currentUser.uid);
   };
 
   useEffect(() => {
-    if (currentUser.email === process.env.REACT_APP_ADMIN_EMAIL) {
-      setRequestFunction(GamersHubAPIs.getAll);
-    }
-    sendRequest(currentUser.uid);
+    reloadContentHandler();
   }, []);
 
   if (status === "pending" || status === "sending") {

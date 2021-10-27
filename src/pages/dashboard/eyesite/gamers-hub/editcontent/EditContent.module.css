@@ -7,6 +7,15 @@
   color: #c6c9d8;
 }
 
+.original-photo-wrapper {
+  text-align: center;
+  width: 100%;
+}
+
+.original-photo-wrapper img {
+  max-width: 100%;
+}
+
 .dm-card-dark {
   padding: 30px;
   border-radius: 15px;

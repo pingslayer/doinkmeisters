@@ -11,8 +11,6 @@ import {
   Toast,
   Modal,
 } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileUpload } from "@fortawesome/free-solid-svg-icons";
 //components
 import {
   validateNameHelper,
@@ -21,6 +19,7 @@ import {
   validateDescriptionHelper,
   validateEditPhotoHelper,
 } from "../helpers/Validation";
+import ImgCropperForUpdate from "../../../../../components/imgcropper/ImgCropperForUpdate";
 //ui
 import ModalDark from "../../../../../ui/modal-dark/ModalDark";
 import RadioDark from "../../../../../ui/radio-dark/RadioDark";
@@ -113,6 +112,7 @@ const EditContent = (props) => {
   /**
    * refs
    */
+  const ImgCropperRef = useRef(null);
   const descriptionEditorRef = useRef(null);
 
   /**
@@ -143,16 +143,10 @@ const EditContent = (props) => {
     return data;
   }
 
-  function validatePhoto(value) {
-    let data = validateEditPhotoHelper(value);
-    setPhotoState(data);
-    return data;
-  }
-
   function validateEditForm() {
+    var photo = ImgCropperRef.current.validatePhotoImpHandle();
     let name = validateName(nameState.value);
     let summary = validateSummary(summaryState.value);
-    let photo = validatePhoto(photoState.value);
     let link = validateLink(linkState.value);
 
     let description = null;
@@ -187,14 +181,13 @@ const EditContent = (props) => {
     validateSummary(value);
   }
 
+  function onGetCropperPhotoHandler(cropperPhotoData) {
+    setPhotoState(cropperPhotoData);
+  }
+
   function onLinkChangeHandler(event) {
     let value = event.target.value;
     validateLink(value);
-  }
-
-  function onPhotoChangeHandler(event) {
-    let value = event.target.files[0];
-    validatePhoto(value);
   }
 
   function onDescriptionChangeHandler(editor) {
@@ -245,6 +238,9 @@ const EditContent = (props) => {
         url: props.content.photo_url,
       },
     });
+    if (ImgCropperRef.current) {
+      ImgCropperRef.current.resetPhotoImpHandle();
+    }
     setCitation(props.content.citation);
     setLinkState({
       ...initState,
@@ -271,6 +267,7 @@ const EditContent = (props) => {
     if (!validateEditForm()) {
       return;
     }
+
     setUploadingPhoto({
       isUploading: true,
       name: "Uploading data, please wait",
@@ -298,10 +295,14 @@ const EditContent = (props) => {
       return;
     }
 
+    let photoName = +new Date() + "-" + photoState.value.name;
+
     // if new photo is set
     const uploadTask = storage
-      .ref(`${STORAGE_FOLDER}/${photoState.value.name}`)
-      .put(photoState.value);
+      .ref(`${STORAGE_FOLDER}/${photoName}`)
+      .putString(photoState.base64Value, "data_url", {
+        contentType: "image/jpeg",
+      });
 
     uploadTask.on(
       "state_changed",
@@ -328,7 +329,7 @@ const EditContent = (props) => {
         //finally
         uploadTask.snapshot.ref.getDownloadURL().then((url) => {
           var photoBuilder = {
-            name: +new Date() + photoState.value.name,
+            name: photoName,
             url: url,
           };
           const data = {
@@ -353,7 +354,9 @@ const EditContent = (props) => {
         isModalVisible={isModalVisible}
         onModalCloseHandler={onPhotoModalCloseHandler}
       >
-        <img src={props.content.photo_url} width="100%" />
+        <div className={classes["original-photo-wrapper"]}>
+          <img src={props.content.photo_url} />
+        </div>
       </ModalDark>
 
       <div className={classes["dm-add-data-wrapper"]}>
@@ -410,42 +413,15 @@ const EditContent = (props) => {
                   </Col>
                 </Form.Group>
                 {/* Photo */}
-                <Form.Group as={Row}>
-                  <Form.Label column sm={2}>
-                    Photo
-                  </Form.Label>
-                  <Col sm={5}>
-                    {/* <img src={photoState.snapshot.url} width="100%" /> */}
-                    <button
-                      type="button"
-                      className={`btn btn-outline-dark btn-md mb-2 ${classes["dm-upload-file-btn"]}`}
-                      onClick={onPhotoModalOpenHandler}
-                    >
-                      Show current photo
-                    </button>
-                  </Col>
-                  <Col sm={5}>
-                    <label
-                      className={`btn btn-outline-dark btn-md mb-2 ${classes["dm-upload-file-btn"]}`}
-                      style={
-                        !photoState.isPristine && photoState.isError
-                          ? errorBorder
-                          : defaultBorder
-                      }
-                    >
-                      <FontAwesomeIcon icon={faFileUpload} />
-                      &nbsp;&nbsp;&nbsp;
-                      {photoState.value === undefined
-                        ? "Select New Photo"
-                        : photoState.value.name}
-                      <input type="file" onChange={onPhotoChangeHandler} />
-                    </label>
-                    <p className={classes["dm-form-control-message"]}>
-                      {photoState.message}
-                    </p>
-                  </Col>
-                </Form.Group>
-
+                <CardGrey>
+                  <ImgCropperForUpdate
+                    ref={ImgCropperRef}
+                    onPhotoModalOpen={onPhotoModalOpenHandler}
+                    onGetCropperPhoto={onGetCropperPhotoHandler}
+                    validationHelperFn={validateEditPhotoHelper}
+                  />
+                </CardGrey>
+                <br />
                 <CardGrey>
                   {/* citation toggler */}
                   <div className="centered mt-0">
