@@ -1,20 +1,21 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { useHistory, useLocation, useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { Container } from "react-bootstrap";
 import ReactHtmlParser from "react-html-parser";
 //ui
-import ModalLightFullScreen from "../../../ui/modal-light-full-width/ModalLightFullScreen";
+import ModalLightFullScreen from "../../../../ui/modal-light-full-width/ModalLightFullScreen";
 //css
-import classes from "./Results.module.css";
+import classes from "./GamersHub.module.css";
 //components
-import LoadingSpinner from "../../../ui/loading-spinner/LoadingSpinner";
+import LoadingSpinner from "../../../../ui/loading-spinner/LoadingSpinner";
 import ResultItem from "./ResultItem/ResultItem";
 //hooks
-import useHttp from "../../../hooks/use-http";
+import useHttp from "../../../../hooks/use-http";
+//api
+import { GamersHubPublicAPIs } from "../../../../apis/gamers-hub-api";
 
-const Results = (props) => {
+const GamersHub = (props) => {
   const [description, setDescription] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -40,7 +41,7 @@ const Results = (props) => {
     status,
     data: loadedData,
     error,
-  } = useHttp(props.apiRef.getAllActive, true);
+  } = useHttp(GamersHubPublicAPIs.getAllActive, true);
 
   useEffect(() => {
     sendRequest();
@@ -60,10 +61,10 @@ const Results = (props) => {
         <FontAwesomeIcon
           icon={faInfoCircle}
           className={classes["no-data-icon"]}
-        />
+        />{" "}
         <h3 className={`${classes["no-data-message"]} mt-3`}>
-          No Data to Display
-        </h3>
+          No Data to Display{" "}
+        </h3>{" "}
       </div>
     );
   }
@@ -74,21 +75,22 @@ const Results = (props) => {
         isModalVisible={isModalVisible}
         onModalCloseHandler={onModalCloseHandler}
       >
-        {ReactHtmlParser(description)}
-      </ModalLightFullScreen>
+        {ReactHtmlParser(description)}{" "}
+      </ModalLightFullScreen>{" "}
       <Container>
         <ul className={classes["dm-results-list"]}>
+          {" "}
           {loadedData.map((data, index) => (
             <ResultItem
               key={index}
               data={data}
               onShowContent={onShowContentHandler}
             />
-          ))}
-        </ul>
-      </Container>
+          ))}{" "}
+        </ul>{" "}
+      </Container>{" "}
     </Fragment>
   );
 };
 
-export default Results;
+export default GamersHub;

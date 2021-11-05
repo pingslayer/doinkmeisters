@@ -78,6 +78,17 @@ const Aside = ({ image, collapsed, rtl, toggled, handleToggleSidebar }) => {
               <MenuItem>
                 <span className={classes["dm-sidebar-item"]}>
                   <NavLink
+                    to="/dashboard/eyesite/media-and-entertainment"
+                    className={classes["dm-nav-item"]}
+                    activeClassName={classes.active}
+                  >
+                    Media And Entertainment
+                  </NavLink>
+                </span>
+              </MenuItem>
+              <MenuItem>
+                <span className={classes["dm-sidebar-item"]}>
+                  <NavLink
                     to="/dashboard/eyesite/gamers-hub"
                     className={classes["dm-nav-item"]}
                     activeClassName={classes.active}

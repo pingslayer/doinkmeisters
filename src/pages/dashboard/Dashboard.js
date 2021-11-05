@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router";
 //components
 import Home from "./home/Home";
+import MediaAndEntertainment from "./eyesite/media-and-entertainment/MediaAndEntertainment";
 import GamersHub from "./eyesite/gamers-hub/GamersHub";
 import ChangePassword from "./account/change-password/ChangePassword";
 import NotFound from "../notfound/NotFound";
@@ -15,6 +16,9 @@ const Dashboard = () => {
       <Switch>
         <Route key={0} path="/dashboard" exact>
           <Home />
+        </Route>
+        <Route path="/dashboard/eyesite/media-and-entertainment" exact>
+          <MediaAndEntertainment />
         </Route>
         <Route path="/dashboard/eyesite/gamers-hub" exact>
           <GamersHub />

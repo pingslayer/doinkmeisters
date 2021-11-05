@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 //ui
-import LoadingSpinnerXS from "../../../../../../../ui/loading-spinner-xs/LoadingSpinnerXS";
+import LoadingSpinnerXS from "../loading-spinner-xs/LoadingSpinnerXS";
 
 const ResultItemImage = (props) => {
   const [loading, setLoading] = useState(true);

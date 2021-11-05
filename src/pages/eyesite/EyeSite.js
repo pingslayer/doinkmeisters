@@ -3,13 +3,11 @@ import { Route, Switch, Redirect } from "react-router";
 //components
 import Search from "./search/Search";
 import Categories from "./categories/Categories";
-import Results from "./results/Results";
-import NotFound from "../notfound/NotFound";
+import GamersHub from "./results/gamers-hub/GamersHub";
+import MediaAndEntertainment from "./results/media-and-entertainment/MediaAndEntertainment";
 import ComingSoon from "../../components/comingsoon/ComingSoon";
 //css
 import "bootstrap/dist/css/bootstrap.min.css";
-//api
-import { GamersHubPublicAPIs } from "../../apis/gamers-hub-api";
 
 const EyeSite = () => {
   return (
@@ -21,10 +19,13 @@ const EyeSite = () => {
       {/* Nested Pages Section */}
       <Switch>
         <Route key={0} path="/eyesite" exact>
-          <Redirect to="/eyesite/gamers-hub" />
+          <Redirect to="/eyesite/media-and-entertainment" />
+        </Route>
+        <Route path="/eyesite/media-and-entertainment" exact>
+          <MediaAndEntertainment />
         </Route>
         <Route path="/eyesite/gamers-hub" exact>
-          <Results apiRef={GamersHubPublicAPIs} />
+          <GamersHub />
         </Route>
         <Route path="/eyesite/*">
           <ComingSoon mode="light" />

@@ -12,6 +12,7 @@ import EditContent from "./editcontent/EditContent";
 import CardDark from "../../../../ui/card-dark/CardDark";
 import LoadingSpinner from "../../../../ui/loading-spinner/LoadingSpinner";
 import ModalDarkConfirmation from "../../../../ui/modal-dark-confirmation/ModalDarkConfirmation";
+import DashboardHeaderBar from "../../../../ui/dashboard-header-bar/DashboardHeaderBar";
 //css
 import classes from "./GamersHub.module.css";
 //apis
@@ -106,35 +107,12 @@ const GamersHub = (props) => {
       <div className={classes["dm-eyesite-wrapper"]}>
         <Container>
           <br />
-          <CardDark>
-            <div className="d-flex justify-content-between">
-              {view === SHOW_ALL_VIEW && (
-                <Button className="btn btn-dark" onClick={addContentHandler}>
-                  + Add
-                </Button>
-              )}
-              {view === ADD_VIEW && (
-                <Button
-                  className="btn btn-dark"
-                  onClick={showAllContentHandler}
-                >
-                  &#60; Back
-                </Button>
-              )}
-              {view === EDIT_VIEW && (
-                <Button
-                  className="btn btn-dark"
-                  onClick={showAllContentHandler}
-                >
-                  &#60; Back
-                </Button>
-              )}
-
-              <h4>
-                Gamers Hub {`>`} {view}
-              </h4>
-            </div>
-          </CardDark>
+          <DashboardHeaderBar
+            menuName={"Gamers Hub"}
+            view={view}
+            addContent={addContentHandler}
+            showContent={showAllContentHandler}
+          />
           <br />
           {view === SHOW_ALL_VIEW && (
             <Content

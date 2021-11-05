@@ -1,7 +1,7 @@
 import { faLessThan } from "@fortawesome/free-solid-svg-icons";
 import { Fragment, useState } from "react";
 //ui
-import LoadingSpinnerXS from "../../../../../ui/loading-spinner-xs/LoadingSpinnerXS";
+import LoadingSpinnerXS from "../../../../../../ui/loading-spinner-xs/LoadingSpinnerXS";
 
 const ResultItemImage = (props) => {
   const [loading, setLoading] = useState(true);
@@ -21,6 +21,7 @@ const ResultItemImage = (props) => {
           className="img-thumbnail"
           alt="No Image Found"
           onLoad={onImageLoaded}
+          width="100%"
         />
       </div>
     </Fragment>
